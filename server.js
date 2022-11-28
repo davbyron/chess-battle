@@ -1,13 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import { MongoClient, ServerApiVersion } from 'mongodb'
+import MongoURI from 'chess-battle.conf.js'
 
 const app = express()
 const port = 3001
 
 app.use(cors())
 
-const mongoURI = "mongodb+srv://admin:euNLxsrAMIPVfiqk@chess-battle.ymz2lx5.mongodb.net/?retryWrites=true&w=majority";
+const mongoURI = MongoURI;
 const mongoClient = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 function getRandomInt(max) {
