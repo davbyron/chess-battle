@@ -15,12 +15,21 @@
     justify-content: space-between;
     border-radius: var(--card-border-radius);
     border: 2px solid black;
-    background-color: lightcoral;
+    background-color: lightgray;
     transition: all .2s ease-in-out;
+}
+
+.level1Card {
+    background-color: lightcoral;
+}
+
+.level2Card {
+    background-color: rgb(146, 194, 219);
 }
 
 .card:hover {
     transform: scale(2) translateY(-30%);
+    z-index: 2;
     cursor: pointer;
 }
 
@@ -39,7 +48,7 @@
     display: flex;
     justify-content: center;
     border: 1px solid black;
-    background-image: url('../public/static/images/edrick-krozendijk-25JxltstHSc-unsplash.jpg');
+    /* background-image: url('../public/static/images/edrick-krozendijk-25JxltstHSc-unsplash.jpg'); */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -54,7 +63,6 @@
     border-radius: 20px;
     border: 1px solid black;
     background-color: white;
-    /* background: radial-gradient(#fff, 50%, rgba(255, 255, 255, 0.15), 70%, transparent); */
 }
 
 .cardText {
@@ -115,7 +123,6 @@
 
 .attack {
     /* border: 1px solid gray; */
-    /* background: radial-gradient() */
     transform: translate(-75%, -50%); /* x, y */
 }
 
@@ -135,7 +142,6 @@
 
 .health {
     /* border: 1px solid yellow; */
-    /* background: radial-gradient(#FB181C, 50%, rgba(251, 24, 28, 0.15), 70%, transparent); */
     transform: translate(0, 50%); /* x, y */
 }
 
