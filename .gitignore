@@ -4,3 +4,5 @@ package-lock.json
 scripts/
 
 .next/
+
+chess-battle.config.js
