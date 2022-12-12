@@ -17,10 +17,16 @@ export default function BoardPrototype() {
     async function handlePawnDeckClick() {
         // Get a random card 
         const card = await fetch('http://localhost:3001/card');
-        const cardJSON = await card.json()
+        const cardJson = await card.json();
+
+        const unsplashImgId = cardJson.unsplashImgId;
+        const cardUrl = await fetch(`http://localhost:3001/cardPhotoUrl/${unsplashImgId}`);
+        const cardUrlJson = await cardUrl.json();
+
+        cardJson['url'] = cardUrlJson.url;
 
         // Update hand
-        setPlayer2Hand(player2Hand.concat(cardJSON));
+        setPlayer2Hand(player2Hand.concat(cardJson));
     }
 
     return (
@@ -88,6 +94,7 @@ export default function BoardPrototype() {
                                 attack={card.attack}
                                 health={card.health}
                                 attackPattern={card.attack_pattern}
+                                imgUrl={card.url}
                              />
                         )
                     })}

@@ -41,7 +41,7 @@
     font-weight: 600;
 }
 
-.cardImage {
+.cardImageContainer {
     height: 35%;
     width: 90%;
     position: relative;
@@ -52,6 +52,10 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.cardImage {
+    object-fit: cover;
 }
 
 .cardLevel {
@@ -101,6 +105,8 @@
     font-size: 0.45em;
     font-weight: 600;
     text-align: center;
+    color: white;
+    -webkit-text-stroke: 0.05em black;
     /* border: 1px solid pink; */
 }
 
