@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Pattern.module.css'
-import * as patterns from '../src/attackPatterns';
+import * as patterns from '../constants/attackPatterns';
 
 type PatternProps = {
     pattern: string
