@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import BoardSquare from './BoardSquare'
 import Card from './Card'
 import styles from './BoardPrototype.module.css'
@@ -6,8 +6,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt, faChessPawn, faMountainSun } from '@fortawesome/free-solid-svg-icons'
 
 export default function BoardPrototype() {
+    // TODO: Duplicate, move to another file and import
+    type Card = {
+        name: string,
+        ability: string,
+        level: string,
+        attack: string,
+        health: string,
+        attack_pattern: string,
+        url: string
+    }
 
-    const [player2Hand, setPlayer2Hand] = React.useState([]) // Init empty array
+    const [player2Hand, setPlayer2Hand] = useState<Card[]>([]) // Init empty array
 
     useEffect(() => {
         console.log('you changed player 2\'s hand!')

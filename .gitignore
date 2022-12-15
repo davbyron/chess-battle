@@ -4,5 +4,8 @@ package-lock.json
 scripts/
 
 .next/
+next-env.d.ts
 
 chess-battle.config.js
+
+build/

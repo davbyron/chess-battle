@@ -1,8 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { MongoClient, ServerApiVersion } from 'mongodb'
+import { MongoClient } from 'mongodb'
 import { createApi } from 'unsplash-js';
-import nodeFetch from 'node-fetch';
 import { MongoURI, UnsplashAccessKey } from './chess-battle.config.js'
 
 const app = express()
@@ -11,9 +10,9 @@ const port = 3001
 app.use(cors())
 
 const mongoURI = MongoURI;
-const mongoClient = new MongoClient(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+const mongoClient = new MongoClient(mongoURI);
 
-function getRandomInt(max) {
+function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
 }
 
@@ -41,8 +40,7 @@ app.get('/cardPhotoUrl/:cardPhotoId', async (request, response) => {
     const cardPhotoId = request.params.cardPhotoId;
     console.log(`cardPhotoId: ${cardPhotoId}`)
     const unsplash = createApi({
-        accessKey: UnsplashAccessKey,
-        fetch: nodeFetch
+        accessKey: UnsplashAccessKey
     });
 
     const unsplashResponse = await unsplash.photos.get({ photoId: cardPhotoId });

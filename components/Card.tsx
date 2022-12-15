@@ -5,9 +5,17 @@ import { faHeart, faHandBackFist, faShield } from '@fortawesome/free-solid-svg-i
 import Pattern from './Pattern'
 import styles from './Card.module.css'
 
-// import FlamingoImage from 'https://images.unsplash.com/5/unsplash-kitsune-4.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9&s=fb86e2e09fceac9b363af536b93a1275'
+type CardProps = {
+    name: string,
+    text: string,
+    level: string,
+    attack: string,
+    health: string,
+    attackPattern: string,
+    imgUrl: string
+}
 
-export default function Card(props) {
+export default function Card(props: CardProps) {
     const name = props.name;
     const text = props.text == 'None' ? '' : props.text;
     const level = props.level;
@@ -23,7 +31,7 @@ export default function Card(props) {
             <div className={`${styles.card} ${styles[cardLevelStyle]}`} draggable="true">
                 <div className={styles.cardName}>{name}</div>
                 <div className={styles.cardImageContainer}>
-                    <Image src={imgUrl} className={styles.cardImage} fill />
+                    <Image src={imgUrl} className={styles.cardImage} alt="Card Image" fill />
                     <div className={styles.cardLevel}> {/* This should be a component too -- for prototype just leaving as is */}
                         {level}
                     </div>
