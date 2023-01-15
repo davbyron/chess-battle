@@ -1,29 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+import { useAppDispatch, useAppSelector } from '../hooks'
+
+import { CardType } from '../types/types'
 import BoardSquare from './BoardSquare'
 import Card from './Card'
 import styles from './BoardPrototype.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt, faChessPawn, faMountainSun } from '@fortawesome/free-solid-svg-icons'
 
-export default function BoardPrototype() {
-    // TODO: Duplicate, move to another file and import
-    type Card = {
-        name: string,
-        ability: string,
-        level: string,
-        attack: string,
-        health: string,
-        attack_pattern: string,
-        url: string
-    }
-
-    const [player2Hand, setPlayer2Hand] = useState<Card[]>([]) // Init empty array
+export default function BoardPrototype(props) {
+    // Redux + state ---->  TODO: get rid of player2hand??? add to redux store? almost certainly
+    const dispatch = useAppDispatch()
+    const [player2Hand, setPlayer2Hand] = useState<CardType[]>([])
 
     useEffect(() => {
         console.log('you changed player 2\'s hand!')
         console.log(player2Hand);
     }, [player2Hand])
 
+    // TODO: This should be done in a more NextJS-y way, i.e. getServerSideProps()
     async function handlePawnDeckClick() {
         // Get a random card 
         const card = await fetch('http://localhost:3001/card');
@@ -38,6 +34,26 @@ export default function BoardPrototype() {
         // Update hand
         setPlayer2Hand(player2Hand.concat(cardJson));
     }
+
+    function handleMouseEnterBoard(event) {
+        // console.log('board enter')
+    }
+
+    const boardSquares = Array(80).fill('').map((element, index) => {
+        return (
+            <BoardSquare
+                id={index}
+                key={index.toString()}
+                name=''
+                text=''
+                level=''
+                attack=''
+                health=''
+                attackPattern=''
+                imgUrl=''
+             />
+        )
+    })
 
     return (
         <div className={styles.container}>
@@ -57,12 +73,10 @@ export default function BoardPrototype() {
                             <div className={`${styles.deck} terrainDeck`}></div>
                         </div>
                     </div>
-                    <button className={styles.nextTurn} style={{visibility: 'hidden'}}>
-
-                    </button>
+                    <button className={styles.nextTurn} style={{visibility: 'hidden'}}></button>
                 </div>
-                <div className={styles.board}>
-                    {Array(80).fill(<BoardSquare />)}
+                <div className={styles.board} onMouseEnter={handleMouseEnterBoard}>
+                    {boardSquares}
                 </div>
                 <div className={`player2-panel ${styles.middlegroundPanel}`}>
                     <div className={styles.decks}>

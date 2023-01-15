@@ -17,6 +17,7 @@
     border: 2px solid black;
     background-color: lightgray;
     transition: all .2s ease-in-out;
+    z-index: 2;
 }
 
 .level1Card {
@@ -33,6 +34,12 @@
     cursor: pointer;
 }
 
+.card:active {
+    transform: scale(1) translateY(0);
+    cursor: grabbing;
+    z-index: 1;
+}
+
 .cardName {
     text-align: center;
 }
@@ -42,6 +49,7 @@
 }
 
 .cardImageContainer {
+    pointer-events: none;
     height: 35%;
     width: 90%;
     position: relative;
@@ -55,6 +63,7 @@
 }
 
 .cardImage {
+    pointer-events: none;
     object-fit: cover;
 }
 
@@ -154,4 +163,8 @@
 .attackTitle, .attackNumber, .defenseTitle, .defenseNumber, .healthTitle, .healthNumber {
     position: relative;
     z-index: 2;
+}
+
+.noPointerEvents {
+    pointer-events: none;
 }
