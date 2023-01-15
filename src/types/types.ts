@@ -20,8 +20,9 @@ export interface CardProps {
     health: string
     attackPattern: string
     imgUrl: string
+    additionalClasses?: string
 }
 
-export interface BoardSquareProps extends CardProps {
+export interface BoardSquareProps {
     id: number
 }

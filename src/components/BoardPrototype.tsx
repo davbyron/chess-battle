@@ -44,13 +44,6 @@ export default function BoardPrototype(props) {
             <BoardSquare
                 id={index}
                 key={index.toString()}
-                name=''
-                text=''
-                level=''
-                attack=''
-                health=''
-                attackPattern=''
-                imgUrl=''
              />
         )
     })

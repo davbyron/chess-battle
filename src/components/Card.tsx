@@ -11,7 +11,7 @@ import Pattern from './Pattern'
 import styles from './Card.module.css'
 
 export default function Card(props: CardProps) {
-    const { name, level, attack, health, attackPattern, imgUrl } = props
+    const { additionalClasses, name, level, attack, health, attackPattern, imgUrl } = props
     const text = props.text == 'None' ? '' : props.text; // TODO
 
     const cardLevelStyle = `level${level}Card`
@@ -23,7 +23,7 @@ export default function Card(props: CardProps) {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${additionalClasses}`}>
             <div className={`${styles.card} ${styles[cardLevelStyle]}`} draggable="true" onDragStart={handleDragStart}>
                 <div className={`${styles.cardName} ${styles.noPointerEvents}`}>{name}</div>
                 <div className={styles.cardImageContainer}>

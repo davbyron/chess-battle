@@ -1,8 +1,20 @@
 .square {
+    position: relative;
     border: 1px solid black;
-    z-index: 2;
+}
+
+.square:hover {
+    cursor: pointer;
 }
 
 .boardSquareImage {
     object-fit: cover;
+}
+
+.hoverCard {
+    position: absolute;
+    left: 110%;
+    top: -150%;
+    height: var(--card-height);
+    width: var(--card-width);
 }

@@ -1,31 +1,24 @@
-import React, { useState, DragEvent, MouseEvent, DragEventHandler } from 'react';
+import React, { useState, DragEvent, MouseEvent } from 'react';
 import Image from 'next/image'
 
-import { useAppSelector, useAppDispatch } from '../hooks'
+import { useAppSelector } from '../hooks'
 
+import Card from './Card';
 import { BoardSquareProps, CardProps } from '../types/types';
 import styles from './BoardSquare.module.css';
-import { activateBoardSquare, selectActiveBoardSquare, selectActiveCard } from '../slices/gameSlice';
+import { selectActiveCard } from '../slices/gameSlice';
 
 export default function BoardSquare(props: BoardSquareProps) {
-    const {
-        id,
-        name,
-        text,
-        level,
-        attack,
-        health,
-        attackPattern,
-        imgUrl
-    } = props
+    const { id } = props
     
-    const dispatch = useAppDispatch()
     const activeCard = useAppSelector(selectActiveCard)
 
     const [cardInSquare, setCardInSquare] = useState<CardProps>(null)
+    const [showFullCard, setShowFullCard] = useState<boolean>(false) 
     console.log(`rendered board square! this: ${id}`)
 
     const handleMouseEnter = (event: MouseEvent) => {
+        if (cardInSquare) setShowFullCard(true)
     }
 
     const handleDragOver = (event: DragEvent) => {
@@ -40,13 +33,25 @@ export default function BoardSquare(props: BoardSquareProps) {
     }
 
     const handleMouseLeave = (event: MouseEvent) => {
-        const target = event.target as HTMLDivElement;
+        if (cardInSquare) setShowFullCard(false)
     }
 
     return (
         <div id={`${props.id}`} className={styles.square} onMouseEnter={handleMouseEnter} onDragOver={handleDragOver} onDrop={handleDrop} onMouseLeave={handleMouseLeave}>
             { cardInSquare && 
-                <Image src={cardInSquare.imgUrl} className={styles.boardSquareImage} alt='hehe' height={50} width={50} />
+                <Image src={cardInSquare.imgUrl} className={styles.boardSquareImage} alt='hehe' fill />
+            }
+            { cardInSquare && showFullCard && 
+                <Card
+                    additionalClasses={styles.hoverCard}
+                    name={cardInSquare.name}
+                    text={cardInSquare.text}
+                    level={cardInSquare.level}
+                    attack={cardInSquare.attack}
+                    health={cardInSquare.health}
+                    attackPattern={cardInSquare.attackPattern}
+                    imgUrl={cardInSquare.imgUrl}
+                />
             }
         </div>
     )
