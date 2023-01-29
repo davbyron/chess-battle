@@ -1,5 +1,3 @@
-import { DragEventHandler } from "react"
-
 export type CardType = {
     name: string,
     ability: string,
