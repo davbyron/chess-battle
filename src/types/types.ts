@@ -24,3 +24,8 @@ export interface CardProps {
 export interface BoardSquareProps {
     id: number
 }
+
+export interface HandProps {
+    cards: CardProps[]
+    playerId: number
+}

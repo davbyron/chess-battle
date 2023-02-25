@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
-import { CardProps, CardType } from '../types/types'
+import { CardProps } from '../types/types'
 
 export interface GameState {
     activeCard: CardProps
     activeSquare: number
-    player2Hand: CardType[]
+    cardIndex: number
+    player2Hand: CardProps[]
 }
 
 const initialState: GameState = {

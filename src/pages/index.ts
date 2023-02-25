@@ -1,3 +1,3 @@
-import BoardPrototype from '../components/BoardPrototype'
+import Board from '../components/Board'
 
-export default BoardPrototype
+export default Board

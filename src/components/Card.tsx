@@ -1,4 +1,4 @@
-import React, { DragEvent, useRef } from 'react';
+import React, { DragEvent } from 'react';
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faHandBackFist, faShield } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +12,7 @@ import styles from './Card.module.css'
 
 export default function Card(props: CardProps) {
     const { additionalClasses, name, level, attack, health, attackPattern, imgUrl } = props
-    const text = props.text == 'None' ? '' : props.text; // TODO
+    const text = props.text === 'None' ? '' : props.text; // TODO
 
     const cardLevelStyle = `level${level}Card`
 
@@ -23,7 +23,7 @@ export default function Card(props: CardProps) {
     }
 
     return (
-        <div className={`${styles.container} ${additionalClasses}`}>
+        <div key={name} className={`${styles.container} ${additionalClasses}`}>
             <div className={`${styles.card} ${styles[cardLevelStyle]}`} draggable="true" onDragStart={handleDragStart}>
                 <div className={`${styles.cardName} ${styles.noPointerEvents}`}>{name}</div>
                 <div className={styles.cardImageContainer}>

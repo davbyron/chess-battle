@@ -1,18 +1,18 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../hooks'
 
-import { CardType } from '../types/types'
 import BoardSquare from './BoardSquare'
 import Card from './Card'
-import styles from './BoardPrototype.module.css'
+import Hand from './Hand'
+import styles from './Board.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt, faChessPawn, faMountainSun } from '@fortawesome/free-solid-svg-icons'
+import { selectPlayer2Hand, addCardToPlayer2Hand } from '../slices/gameSlice'
 
-export default function BoardPrototype(props) {
-    // Redux + state ---->  TODO: get rid of player2hand??? add to redux store? almost certainly
+export default function Board(props) {
     const dispatch = useAppDispatch()
-    const [player2Hand, setPlayer2Hand] = useState<CardType[]>([])
+    const player2Hand = useAppSelector(selectPlayer2Hand)
 
     useEffect(() => {
         console.log('you changed player 2\'s hand!')
@@ -29,10 +29,17 @@ export default function BoardPrototype(props) {
         const cardUrl = await fetch(`http://localhost:3001/cardPhotoUrl/${unsplashImgId}`);
         const cardUrlJson = await cardUrl.json();
 
-        cardJson['url'] = cardUrlJson.url;
+        // Make identical to CardProps
+        // TODO: Fix this in MongoDB so database matches whatever JS wants
+        cardJson['attackPattern'] = cardJson['attack_pattern']
+        cardJson['text'] = cardJson['ability']
+        delete cardJson['attack_pattern']
+        delete cardJson['ability']
+
+        cardJson['imgUrl'] = cardUrlJson.url;
 
         // Update hand
-        setPlayer2Hand(player2Hand.concat(cardJson));
+        dispatch(addCardToPlayer2Hand(cardJson));
     }
 
     function handleMouseEnterBoard(event) {
@@ -101,21 +108,10 @@ export default function BoardPrototype(props) {
                     <br/>
                     Exp(?): 0/10
                 </div>
-                <div className={styles.hand}>
-                    {player2Hand.map(card => {
-                        return (
-                            <Card
-                                name={card.name}
-                                text={card.ability}
-                                level={card.level}
-                                attack={card.attack}
-                                health={card.health}
-                                attackPattern={card.attack_pattern}
-                                imgUrl={card.url}
-                             />
-                        )
-                    })}
-                </div>
+                <Hand
+                    cards={player2Hand}
+                    playerId={2}
+                />
             </div>
         </div>
     )
