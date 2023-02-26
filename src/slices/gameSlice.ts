@@ -24,6 +24,9 @@ export const gameSlice = createSlice({
         activateBoardSquare: (state, action: PayloadAction<number>) => {
             state.activeSquare = action.payload
         },
+        deactivateBoardSquare: (state) => {
+            state.activeSquare = null
+        },
         activateCard: (state, action: PayloadAction<CardProps>) => {
             state.activeCard = action.payload
         },
@@ -44,6 +47,7 @@ export const {
     activateCard,
     deactivateCard,
     activateBoardSquare,
+    deactivateBoardSquare,
     addCardToPlayer2Hand,
     removeCardFromPlayer2Hand
 } = gameSlice.actions

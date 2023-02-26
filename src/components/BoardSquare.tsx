@@ -6,13 +6,22 @@ import { useAppDispatch, useAppSelector } from '../hooks'
 import Card from './Card';
 import { BoardSquareProps, CardProps } from '../types/types';
 import styles from './BoardSquare.module.css';
-import { selectActiveCard, removeCardFromPlayer2Hand, deactivateCard } from '../slices/gameSlice';
+import {
+    selectActiveCard,
+    selectActiveBoardSquare,
+    removeCardFromPlayer2Hand,
+    activateBoardSquare,
+    deactivateBoardSquare,
+    activateCard,
+    deactivateCard
+} from '../slices/gameSlice';
 
 export default function BoardSquare(props: BoardSquareProps) {
     const { id } = props
     
     const dispatch = useAppDispatch()
     const activeCard = useAppSelector(selectActiveCard)
+    const activeBoardSquare = useAppSelector(selectActiveBoardSquare)
 
     const [cardInSquare, setCardInSquare] = useState<CardProps>(null)
     const [showFullCard, setShowFullCard] = useState<boolean>(false) 
@@ -25,8 +34,21 @@ export default function BoardSquare(props: BoardSquareProps) {
         event.preventDefault();
     }
 
+    function handleDragStart() {
+        if (cardInSquare) setShowFullCard(false)
+        dispatch(activateCard(cardInSquare))
+    }
+
+    function handleDragEnd() {
+        if (activeBoardSquare && activeBoardSquare !== id) {
+            setCardInSquare(null)
+            dispatch(deactivateBoardSquare())
+        }
+        dispatch(deactivateCard())
+    }
+
     const handleDrop = (event: DragEvent) => {
-        console.log(`handleDrop in boardSquare ${id}`)
+        dispatch(activateBoardSquare(id))
 
         // Update card in square with active card
         setCardInSquare(activeCard)
@@ -34,12 +56,12 @@ export default function BoardSquare(props: BoardSquareProps) {
         dispatch(deactivateCard())
     }
 
-    const handleMouseLeave = (event: MouseEvent) => {
+    const handleMouseLeave = () => {
         if (cardInSquare) setShowFullCard(false)
     }
 
     return (
-        <div id={`${props.id}`} className={styles.square} onMouseEnter={handleMouseEnter} onDragOver={handleDragOver} onDrop={handleDrop} onMouseLeave={handleMouseLeave}>
+        <div id={`${props.id}`} className={styles.square} onMouseEnter={handleMouseEnter} onDragOver={handleDragOver} onDragStart={handleDragStart} onDragEnd={handleDragEnd} onDrop={handleDrop} onMouseLeave={handleMouseLeave}>
             { cardInSquare && 
                 <Image src={cardInSquare.imgUrl} className={styles.boardSquareImage} alt='hehe' fill />
             }
