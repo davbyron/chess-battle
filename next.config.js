@@ -1,6 +1,7 @@
 // This syntax was given by NextJS: https://nextjs.org/docs/messages/next-image-unconfigured-host
 
 const nextConfig = {
+    reactStrictMode: true,
     images: {
         formats: ['image/avif', 'image/webp'],
         remotePatterns: [
