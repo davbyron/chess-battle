@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
 
 import BoardSquare from './BoardSquare'
-import Card from './Card'
 import Hand from './Hand'
 import styles from './Board.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -37,6 +36,7 @@ export default function Board(props) {
         delete cardJson['ability']
 
         cardJson['imgUrl'] = cardUrlJson.url;
+        cardJson['id'] = crypto.randomUUID();
 
         // Update hand
         dispatch(addCardToPlayer2Hand(cardJson));

@@ -12,6 +12,7 @@ export default function Hand(props: HandProps) {
             {cards.map(card => {
                 return (
                     <Card
+                        id={card.id}
                         name={card.name}
                         text={card.text}
                         level={card.level}

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faHandBackFist, faShield } from '@fortawesome/free-solid-svg-icons'
 
-import { activateCard } from '../slices/gameSlice'
+import { activateCard, deactivateCard } from '../slices/gameSlice'
 import { useAppDispatch } from '../hooks'
 
 import { CardProps } from '../types/types';
@@ -22,9 +22,13 @@ export default function Card(props: CardProps) {
         dispatch(activateCard(props))
     }
 
+    function handleDragEnd(event: DragEvent) {
+        dispatch(deactivateCard())
+    }
+
     return (
         <div key={name} className={`${styles.container} ${additionalClasses}`}>
-            <div className={`${styles.card} ${styles[cardLevelStyle]}`} draggable="true" onDragStart={handleDragStart}>
+            <div className={`${styles.card} ${styles[cardLevelStyle]}`} draggable="true" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                 <div className={`${styles.cardName} ${styles.noPointerEvents}`}>{name}</div>
                 <div className={styles.cardImageContainer}>
                     <Image src={imgUrl} className={styles.cardImage} alt="Card Image" fill />

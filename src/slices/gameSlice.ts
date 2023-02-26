@@ -11,16 +11,9 @@ export interface GameState {
 }
 
 const initialState: GameState = {
-    activeCard: {
-        name: '',
-        text: '',
-        level: '',
-        attack: '',
-        health: '',
-        attackPattern: '',
-        imgUrl: ''
-    },
+    activeCard: null,
     activeSquare: null,
+    cardIndex: 0,
     player2Hand: []
 }
 
@@ -28,18 +21,35 @@ export const gameSlice = createSlice({
     name: 'game',
     initialState: initialState,
     reducers: {
+        activateBoardSquare: (state, action: PayloadAction<number>) => {
+            state.activeSquare = action.payload
+        },
         activateCard: (state, action: PayloadAction<CardProps>) => {
             state.activeCard = action.payload
         },
-        activateBoardSquare: (state, action: PayloadAction<number>) => {
-            state.activeSquare = action.payload
+        deactivateCard: (state) => {
+            state.activeCard = null
+        },
+        addCardToPlayer2Hand: (state, action:PayloadAction<CardProps>) => {
+            state.player2Hand = state.player2Hand.concat(action.payload)
+        },
+        removeCardFromPlayer2Hand: (state, action:PayloadAction<CardProps>) => {
+            const newHand = state.player2Hand.filter(card => card.id !== action.payload.id)
+            state.player2Hand = newHand
         }
     }
 })
 
-export const { activateCard, activateBoardSquare } = gameSlice.actions
+export const {
+    activateCard,
+    deactivateCard,
+    activateBoardSquare,
+    addCardToPlayer2Hand,
+    removeCardFromPlayer2Hand
+} = gameSlice.actions
 
 export const selectActiveCard = (state: RootState) => state.game.activeCard
 export const selectActiveBoardSquare = (state: RootState) => state.game.activeSquare
+export const selectPlayer2Hand = (state: RootState) => state.game.player2Hand
 
 export default gameSlice.reducer

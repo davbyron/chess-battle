@@ -1,25 +1,25 @@
-import React, { useState, DragEvent, MouseEvent } from 'react';
+import React, { useState, useCallback, DragEvent, MouseEvent } from 'react';
 import Image from 'next/image'
 
-import { useAppSelector } from '../hooks'
+import { useAppDispatch, useAppSelector } from '../hooks'
 
 import Card from './Card';
 import { BoardSquareProps, CardProps } from '../types/types';
 import styles from './BoardSquare.module.css';
-import { selectActiveCard } from '../slices/gameSlice';
+import { selectActiveCard, removeCardFromPlayer2Hand, deactivateCard } from '../slices/gameSlice';
 
 export default function BoardSquare(props: BoardSquareProps) {
     const { id } = props
     
+    const dispatch = useAppDispatch()
     const activeCard = useAppSelector(selectActiveCard)
 
     const [cardInSquare, setCardInSquare] = useState<CardProps>(null)
     const [showFullCard, setShowFullCard] = useState<boolean>(false) 
-    console.log(`rendered board square! this: ${id}`)
 
-    const handleMouseEnter = (event: MouseEvent) => {
+    const handleMouseEnter = useCallback((event: MouseEvent) => {
         if (cardInSquare) setShowFullCard(true)
-    }
+    }, [cardInSquare])
 
     const handleDragOver = (event: DragEvent) => {
         event.preventDefault();
@@ -30,6 +30,8 @@ export default function BoardSquare(props: BoardSquareProps) {
 
         // Update card in square with active card
         setCardInSquare(activeCard)
+        dispatch(removeCardFromPlayer2Hand(activeCard))
+        dispatch(deactivateCard())
     }
 
     const handleMouseLeave = (event: MouseEvent) => {
@@ -44,6 +46,7 @@ export default function BoardSquare(props: BoardSquareProps) {
             { cardInSquare && showFullCard && 
                 <Card
                     additionalClasses={styles.hoverCard}
+                    id={cardInSquare.id}
                     name={cardInSquare.name}
                     text={cardInSquare.text}
                     level={cardInSquare.level}

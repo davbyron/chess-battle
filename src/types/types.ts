@@ -11,6 +11,7 @@ export type CardType = {
 // Prop types
 
 export interface CardProps {
+    id: string
     name: string
     text: string
     level: string
