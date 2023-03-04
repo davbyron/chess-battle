@@ -40,7 +40,7 @@ export default function BoardSquare(props: BoardSquareProps) {
     }
 
     function handleDragEnd() {
-        if (activeBoardSquare && activeBoardSquare !== id) {
+        if (activeBoardSquare !== id) {
             setCardInSquare(null)
             dispatch(deactivateBoardSquare())
         }
