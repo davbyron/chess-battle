@@ -20,6 +20,7 @@ export default function Hand(props: HandProps) {
                         health={card.health}
                         attackPattern={card.attackPattern}
                         imgUrl={card.imgUrl}
+                        origin='hand'
                      />
                 )
             })}

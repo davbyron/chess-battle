@@ -3,8 +3,9 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faHandBackFist, faShield } from '@fortawesome/free-solid-svg-icons'
 
-import { activateCard, deactivateCard } from '../slices/gameSlice'
-import { useAppDispatch } from '../hooks'
+import { activateCard, deactivateCard, selectActiveBoardSquare, setAvailableBoardSquares } from '../slices/gameSlice'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { numBoardSquaresHeight, numBoardSquaresWidth } from '../constants/board';
 
 import { CardProps } from '../types/types';
 import Pattern from './Pattern'
@@ -17,13 +18,23 @@ export default function Card(props: CardProps) {
     const cardLevelStyle = `level${level}Card`
 
     const dispatch = useAppDispatch()
+    const activeBoardSquare = useAppSelector(selectActiveBoardSquare)
 
     function handleDragStart(event: DragEvent) {
         dispatch(activateCard(props))
+
+        // Make the first three rows available to drop onto
+        const numStartingBoardSquares = numBoardSquaresWidth * 3
+        const startingSquares = [...Array(numStartingBoardSquares).keys()]
+
+        const squareAdjustment = numBoardSquaresWidth * (numBoardSquaresHeight - 3)
+        const startingSquaresAdjusted = startingSquares.map(square => square + squareAdjustment)
+        dispatch(setAvailableBoardSquares(startingSquaresAdjusted))
     }
 
     function handleDragEnd(event: DragEvent) {
-        dispatch(deactivateCard())
+        if (!activeBoardSquare) dispatch(deactivateCard())
+        dispatch(setAvailableBoardSquares([]))
     }
 
     return (

@@ -19,6 +19,7 @@ export interface CardProps {
     health: string
     attackPattern: string
     imgUrl: string
+    origin?: 'hand' | 'boardSquare'
     additionalClasses?: string
 }
 

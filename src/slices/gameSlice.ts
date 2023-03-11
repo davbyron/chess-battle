@@ -6,6 +6,7 @@ import { CardProps } from '../types/types'
 export interface GameState {
     activeCard: CardProps
     activeSquare: number
+    availableBoardSquares: number[]
     cardIndex: number
     player2Hand: CardProps[]
 }
@@ -13,6 +14,7 @@ export interface GameState {
 const initialState: GameState = {
     activeCard: null,
     activeSquare: null,
+    availableBoardSquares: null,
     cardIndex: 0,
     player2Hand: []
 }
@@ -26,6 +28,9 @@ export const gameSlice = createSlice({
         },
         deactivateBoardSquare: (state) => {
             state.activeSquare = null
+        },
+        setAvailableBoardSquares: (state, action: PayloadAction<number[]>) => {
+            state.availableBoardSquares = action.payload
         },
         activateCard: (state, action: PayloadAction<CardProps>) => {
             state.activeCard = action.payload
@@ -48,12 +53,14 @@ export const {
     deactivateCard,
     activateBoardSquare,
     deactivateBoardSquare,
+    setAvailableBoardSquares,
     addCardToPlayer2Hand,
     removeCardFromPlayer2Hand
 } = gameSlice.actions
 
 export const selectActiveCard = (state: RootState) => state.game.activeCard
 export const selectActiveBoardSquare = (state: RootState) => state.game.activeSquare
+export const selectAvailableBoardSquares = (state: RootState) => state.game.availableBoardSquares
 export const selectPlayer2Hand = (state: RootState) => state.game.player2Hand
 
 export default gameSlice.reducer

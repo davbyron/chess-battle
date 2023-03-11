@@ -7,6 +7,10 @@
     cursor: pointer;
 }
 
+.availableSquare {
+    background-color: aquamarine;
+}
+
 .boardSquareImage {
     object-fit: cover;
 }

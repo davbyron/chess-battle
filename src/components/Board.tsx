@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../hooks'
 
+import { numBoardSquares } from '../constants/board'
 import BoardSquare from './BoardSquare'
 import Hand from './Hand'
 import styles from './Board.module.css'
@@ -42,11 +43,7 @@ export default function Board(props) {
         dispatch(addCardToPlayer2Hand(cardJson));
     }
 
-    function handleMouseEnterBoard(event) {
-        // console.log('board enter')
-    }
-
-    const boardSquares = Array(80).fill('').map((element, index) => {
+    const boardSquares = Array(numBoardSquares).fill('').map((element, index) => {
         return (
             <BoardSquare
                 id={index}
@@ -75,7 +72,7 @@ export default function Board(props) {
                     </div>
                     <button className={styles.nextTurn} style={{visibility: 'hidden'}}></button>
                 </div>
-                <div className={styles.board} onMouseEnter={handleMouseEnterBoard}>
+                <div className={styles.board}>
                     {boardSquares}
                 </div>
                 <div className={`player2-panel ${styles.middlegroundPanel}`}>
