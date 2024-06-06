@@ -6,8 +6,7 @@ scripts/
 .next/
 next-env.d.ts
 
-chess-battle.config.js
-!chess-battle.config.example. # Don't ignore example config
+chess-battle.config.ts
 
 build/
 *.js
