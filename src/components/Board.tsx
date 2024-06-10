@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../hooks'
@@ -21,7 +23,8 @@ export default function Board(props) {
 
     // TODO: This should be done in a more NextJS-y way, i.e. getServerSideProps()
     async function handlePawnDeckClick() {
-        // Get a random card 
+      try {
+        // Get a random card
         const card = await fetch('http://localhost:3001/card');
         const cardJson = await card.json();
 
@@ -41,6 +44,9 @@ export default function Board(props) {
 
         // Update hand
         dispatch(addCardToPlayer2Hand(cardJson));
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     const boardSquares = Array(numBoardSquares).fill('').map((element, index) => {

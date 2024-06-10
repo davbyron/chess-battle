@@ -1,3 +1,5 @@
+'use client'
+
 import React, { DragEvent } from 'react';
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
