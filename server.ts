@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import sqlite3 from "sqlite3";
 import { MongoClient } from 'mongodb'
 import { createApi } from 'unsplash-js';
 import { MongoURI, UnsplashAccessKey } from './chess-battle.config.js'
@@ -12,6 +13,14 @@ app.use(cors())
 const mongoURI = MongoURI;
 const mongoClient = new MongoClient(mongoURI);
 
+const sqlite = new sqlite3.Database('./src/db.sql', (err) => {
+	if (err) {
+		console.error(err.message);
+	} else {
+    console.log("Connected to SQLite db.");
+  }
+});
+
 function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
 }
@@ -20,20 +29,35 @@ app.get('/', (request, response) => {
     response.send('Connected.')
 })
 
+app.get('/cards', async (request, response) => {
+	sqlite.all("SELECT * FROM cards", [], (err, rows) => {
+		if (err) {
+			response.status(500).send(err.message);
+		}
+
+		response.send(rows);
+	});
+})
+
 app.get('/card', async (request, response) => {
     // Get all pawns.
     // TODO: We should know how many there are, determine which
     // one we want beforehand, then query for just that one pawn,
     // to speed up querying.
-    await mongoClient.connect()
-    const pawnCollection = mongoClient.db("chess-battle").collection("pawns");
-    const pawnsCursor = pawnCollection.find({});
-    const pawns = await pawnsCursor.toArray();
-    await mongoClient.close();
+    try {
+        await mongoClient.connect()
+        const pawnCollection = mongoClient.db("chess-battle").collection("pawns");
+        const pawnsCursor = pawnCollection.find({});
+        const pawns = await pawnsCursor.toArray();
+        await mongoClient.close();
 
-    // Get random pawn
-    const pawnIndex = getRandomInt(pawns.length);
-    response.send(pawns[pawnIndex]);
+        // Get random pawn
+        const pawnIndex = getRandomInt(pawns.length);
+		    response.send(pawns[pawnIndex]);
+    } catch (error) {
+        console.error(error);
+        response.send(undefined);
+    }
 })
 
 app.get('/cardPhotoUrl/:cardPhotoId', async (request, response) => {
