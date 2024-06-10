@@ -19,6 +19,9 @@ export default function RootLayout({
   return (
     <Provider store={store}>
       <html lang="en">
+        <head>
+          <link href="./tailwind.css" rel="stylesheet" />
+        </head>
         <body>{children}</body>
       </html>
     </Provider>
