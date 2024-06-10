@@ -21,29 +21,25 @@ export default function Board(props) {
         console.log(player2Hand);
     }, [player2Hand])
 
-    // TODO: This should be done in a more NextJS-y way, i.e. getServerSideProps()
     async function handlePawnDeckClick() {
       try {
         // Get a random card
-        const card = await fetch('http://localhost:3001/card');
-        const cardJson = await card.json();
-
-        const unsplashImgId = cardJson.unsplashImgId;
-        const cardUrl = await fetch(`http://localhost:3001/cardPhotoUrl/${unsplashImgId}`);
-        const cardUrlJson = await cardUrl.json();
+        const cardsRes = await fetch('http://localhost:3001/cards');
+        const cards = await cardsRes.json();
+        const card = cards[Math.floor(Math.random() * cards.length)];
 
         // Make identical to CardProps
         // TODO: Fix this in MongoDB so database matches whatever JS wants
-        cardJson['attackPattern'] = cardJson['attack_pattern']
-        cardJson['text'] = cardJson['ability']
-        delete cardJson['attack_pattern']
-        delete cardJson['ability']
+        card['attackPattern'] = card['attack_pattern']
+        card['text'] = card['ability']
+        delete card['attack_pattern']
+        delete card['ability']
 
-        cardJson['imgUrl'] = cardUrlJson.url;
-        cardJson['id'] = crypto.randomUUID();
+        const cardUrlRes = await fetch(`http://localhost:3001/cardPhotoUrl/${card.unsplashImgId}`);
+        const cardUrl = await cardUrlRes.json();
+        card['imgUrl'] = cardUrl.url;
 
-        // Update hand
-        dispatch(addCardToPlayer2Hand(cardJson));
+        dispatch(addCardToPlayer2Hand(card));
       } catch (error) {
         console.error(error);
       }
