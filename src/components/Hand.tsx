@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import Card from './Card'
 import styles from './Hand.module.css'
@@ -11,8 +11,9 @@ export default function Hand(props: HandProps) {
 
     return (
         <div className={styles.hand}>
-            {cards.map(card => {
+            {cards.map((card, index) => {
                 return (
+                  <Fragment key={card.name + index}>
                     <Card
                         id={card.id}
                         name={card.name}
@@ -24,6 +25,7 @@ export default function Hand(props: HandProps) {
                         imgUrl={card.imgUrl}
                         origin='hand'
                      />
+                  </Fragment>
                 )
             })}
         </div>
