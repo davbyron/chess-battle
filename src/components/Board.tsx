@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from '../hooks'
 import { numBoardSquares } from '../constants/board'
 import BoardSquare from './BoardSquare'
 import Hand from './Hand'
-import styles from './Board.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBolt, faChessPawn, faMountainSun } from '@fortawesome/free-solid-svg-icons'
 import { selectPlayer2Hand, addCardToPlayer2Hand } from '../slices/gameSlice'
@@ -55,53 +54,51 @@ export default function Board(props) {
   })
 
   return (
-    <div className={styles.container}>
-      <div className={styles.player1}>
-
-      </div>
-      <div className={styles.middleground}>
-        <div className={`player1-panel ${styles.middlegroundPanel}`}>
-          <div className={styles.decks}>
-            <div className={styles.deckContainer}>
-              <div className={`${styles.deck} pawnDeck`}></div>
+    <div className="h-full w-full flex flex-col border border-black">
+      <div className="h-1/4 border border-amber-400" />
+      <div className="h-1/2 flex justify-center border border-green-500">
+        <div className="w-1/4 flex flex-col justify-center items-center gap-10 border border-purple-800">
+          <div className="h-3/4 w-full flex items-center border border-pink-500">
+            <div className="w-1/3 h-3/4 flex items-center justify-center border border-orange-200">
+              <div className="flex items-center justify-center rounded-md bg-slate-300"></div>
             </div>
-            <div className={styles.deckContainer}>
-              <div className={`${styles.deck} effectDeck`}></div>
+            <div className="w-1/3 h-3/4 flex items-center justify-center border border-orange-200">
+              <div className="flex items-center justify-center rounded-md bg-slate-300"></div>
             </div>
-            <div className={styles.deckContainer}>
-              <div className={`${styles.deck} terrainDeck`}></div>
+            <div className="w-1/3 h-3/4 flex items-center justify-center border border-orange-200">
+              <div className="flex items-center justify-center rounded-md bg-slate-300"></div>
             </div>
           </div>
-          <button className={styles.nextTurn} style={{ visibility: 'hidden' }}></button>
+          <button className="w-1/2 h-1/6" style={{ visibility: 'hidden' }}></button>
         </div>
-        <div className={styles.board}>
+        <div className="h-full w-1/2 grid grid-cols-10 grid-rows-8">
           {boardSquares}
         </div>
-        <div className={`player2-panel ${styles.middlegroundPanel}`}>
-          <div className={styles.decks}>
-            <div className={styles.deckContainer}>
-              <div className={`${styles.deck} pawnDeck`} onClick={handlePawnDeckClick}>
+        <div className="w-1/4 flex flex-col justify-center items-center gap-10 border border-purple-800">
+          <div className="h-3/4 w-full flex items-center border border-pink-500">
+            <div className="w-1/3 h-3/4 flex items-center justify-center border border-orange-200">
+              <div className="flex items-center justify-center rounded-md bg-slate-300" onClick={handlePawnDeckClick}>
                 <FontAwesomeIcon icon={faChessPawn} size='2x' />
               </div>
             </div>
-            <div className={styles.deckContainer}>
-              <div className={`${styles.deck} effect-deck`}>
+            <div className="w-1/3 h-3/4 flex items-center justify-center border border-orange-200">
+              <div className="flex items-center justify-center rounded-md bg-slate-300">
                 <FontAwesomeIcon icon={faBolt} size='2x' />
               </div>
             </div>
-            <div className={styles.deckContainer}>
-              <div className={`${styles.deck} terrainDeck`}>
+            <div className="w-1/3 h-3/4 flex items-center justify-center border border-orange-200">
+              <div className="flex items-center justify-center rounded-md bg-slate-300">
                 <FontAwesomeIcon icon={faMountainSun} size='2x' />
               </div>
             </div>
           </div>
-          <button className={styles.nextTurn}>
+          <button className="w-1/2 h-1/6 bg-gray-400">
             Next Turn {'>>>'}
           </button>
         </div>
       </div>
-      <div className={styles.player2}>
-        <div className={styles.levelContainer}>
+      <div className="h-1/4 w-full flex border border-blue-500">
+        <div className="w-1/4 h-full flex items-center justify-center text-lg font-bold text-center border border-green-700">
           Level: 1/5
           <br />
           <br />
