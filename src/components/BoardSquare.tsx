@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from '../hooks'
 
 import Card from './Card';
 import { BoardSquareProps, CardProps } from '../types/types';
-import styles from './BoardSquare.module.css';
 import {
   selectActiveCard,
   selectActiveBoardSquare,
@@ -114,7 +113,7 @@ export default function BoardSquare(props: BoardSquareProps) {
   return (
     <div
       id={`${props.id}`}
-      className={`${styles.square} ${availableBoardSquares && availableBoardSquares.includes(id) ? styles.availableSquare : ''}`}
+      className={`relative border border-black ${availableBoardSquares && availableBoardSquares.includes(id) ? 'bg-teal-200' : ''}`}
       onMouseEnter={handleMouseEnter}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
@@ -123,11 +122,11 @@ export default function BoardSquare(props: BoardSquareProps) {
       onMouseLeave={handleMouseLeave}
     >
       {cardInSquare &&
-        <Image src={cardInSquare.imgUrl} className={styles.boardSquareImage} alt='hehe' fill />
+        <Image src={cardInSquare.imgUrl} className="object-cover" alt="hehe" fill />
       }
       {cardInSquare && showFullCard &&
         <Card
-          additionalClasses={styles.hoverCard}
+          additionalClasses="absolute left-[110%] -bottom-1/2"
           id={cardInSquare.id}
           name={cardInSquare.name}
           text={cardInSquare.text}
