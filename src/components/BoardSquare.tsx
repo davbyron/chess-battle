@@ -18,7 +18,7 @@ import {
   selectAvailableBoardSquares,
   setAvailableBoardSquares
 } from '../slices/gameSlice';
-import { numBoardSquaresWidth } from '../constants/board';
+import { numBoardSquaresWidth } from '../constants';
 
 export default function BoardSquare(props: BoardSquareProps) {
   const { id } = props

@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../hooks'
 
-import { numBoardSquares } from '../constants/board'
+import { numBoardSquares } from '../constants'
 import BoardSquare from './BoardSquare'
 import Hand from './Hand'
 import { FaBolt, FaChessPawn, FaMountainSun } from 'react-icons/fa6'

@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 import { activateCard, deactivateCard, selectActiveBoardSquare, setAvailableBoardSquares } from '../slices/gameSlice'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { numBoardSquaresHeight, numBoardSquaresWidth } from '../constants/board';
+import { numBoardSquaresHeight, numBoardSquaresWidth } from '../constants';
 
 import { CardProps } from '../types/types';
 import Pattern from './patterns/Pattern'
