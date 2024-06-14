@@ -63,8 +63,10 @@ export default function Card(props: CardProps) {
       </div>
       <div className={`mt-2.5 px-2 flex items-center justify-center text-center text-[0.65em] pointer-events-none`}>{`${text}`}</div>
       <div className={`flex w-full h-1/5 mt-auto pointer-events-none`}>
-        <Pattern pattern={attackPattern} />
-        <div className="relative w-1/2">
+        <div className="flex-1 scale-90 relative bottom-1 ">
+          <Pattern pattern={attackPattern} />
+        </div>
+        <div className="relative flex-1">
           <div className={`h-[45%] w-[30%] absolute left-[35%] top-1/4 flex justify-center items-center text-[0.45em] font-semibold text-center text-white text-stroke-1 -translate-x-3/4 -translate-y-1/2`}>
             <FaHandBackFist className="global-icon-shadow absolute text-lg text-[#fcba03] rotate-45" />
             <div className="z-10">{attack}</div>
