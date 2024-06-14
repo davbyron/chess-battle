@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../hooks'
 import { numBoardSquaresHeight, numBoardSquaresWidth } from '../constants/board';
 
 import { CardProps } from '../types/types';
-import Pattern from './Pattern'
+import Pattern from './patterns/Pattern'
 
 import { FaHeart, FaHandBackFist, FaShield } from "react-icons/fa6";
 

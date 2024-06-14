@@ -1,6 +1,7 @@
 'use client'
 
-import * as patterns from '../constants/attackPatterns';
+import PatternA from './PatternA';
+import PatternB from './PatternB';
 
 type PatternProps = {
   pattern: string
@@ -9,8 +10,8 @@ type PatternProps = {
 export default function Pattern(props: PatternProps) {
   const getPattern = (pattern: string) => {
     switch (pattern) {
-      case 'A': return patterns.patternA;
-      case 'B': return patterns.patternB;
+      case 'A': return <PatternA />;
+      case 'B': return <PatternB />;
       default: return 'none';
     }
   }
