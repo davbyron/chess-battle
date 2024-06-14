@@ -1,9 +1,9 @@
 export type CardType = {
     name: string,
     ability: string,
-    level: string,
-    attack: string,
-    health: string,
+    level: number,
+    attack: number,
+    health: number,
     attack_pattern: string,
     url: string
 }
@@ -11,12 +11,12 @@ export type CardType = {
 // Prop types
 
 export interface CardProps {
-    id: string
+    id: number
     name: string
     text: string
-    level: string
-    attack: string
-    health: string
+    level: number
+    attack: number
+    health: number
     attackPattern: string
     imgUrl: string
     origin?: 'hand' | 'boardSquare'
