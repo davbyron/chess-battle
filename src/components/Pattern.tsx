@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react';
-import styles from './Pattern.module.css'
 import * as patterns from '../constants/attackPatterns';
 
 type PatternProps = {
@@ -18,7 +17,7 @@ export default function Pattern(props: PatternProps) {
   }
 
   return (
-    <div className={styles.pattern}>
+    <div className="w-1/2 relative left-1 bottom-0.5 flex flex-wrap">
       {getPattern(props.pattern)}
     </div>
   )
