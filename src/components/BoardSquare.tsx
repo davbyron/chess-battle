@@ -113,7 +113,7 @@ export default function BoardSquare(props: BoardSquareProps) {
   return (
     <div
       id={`${props.id}`}
-      className={`relative border border-black ${availableBoardSquares && availableBoardSquares.includes(id) ? 'bg-teal-200' : ''}`}
+      className={`relative border border-black ${availableBoardSquares && availableBoardSquares.includes(id) && 'bg-teal-200'} ${cardInSquare && "cursor-pointer"}`}
       onMouseEnter={handleMouseEnter}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
@@ -125,17 +125,18 @@ export default function BoardSquare(props: BoardSquareProps) {
         <Image src={cardInSquare.imgUrl} className="object-cover" alt="hehe" fill />
       }
       {cardInSquare && showFullCard &&
-        <Card
-          additionalClasses="absolute left-[110%] -bottom-1/2"
-          id={cardInSquare.id}
-          name={cardInSquare.name}
-          text={cardInSquare.text}
-          level={cardInSquare.level}
-          attack={cardInSquare.attack}
-          health={cardInSquare.health}
-          attackPattern={cardInSquare.attackPattern}
-          imgUrl={cardInSquare.imgUrl}
-        />
+        <div className="absolute left-[110%] -bottom-1/2 z-10">
+          <Card
+            id={cardInSquare.id}
+            name={cardInSquare.name}
+            text={cardInSquare.text}
+            level={cardInSquare.level}
+            attack={cardInSquare.attack}
+            health={cardInSquare.health}
+            attackPattern={cardInSquare.attackPattern}
+            imgUrl={cardInSquare.imgUrl}
+          />
+        </div>
       }
     </div>
   )

@@ -1,9 +1,7 @@
 'use client'
 
-import React, { DragEvent } from 'react';
+import React, { DragEvent, useMemo } from 'react';
 import Image from 'next/image'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faHandBackFist, faShield } from '@fortawesome/free-solid-svg-icons'
 
 import { activateCard, deactivateCard, selectActiveBoardSquare, setAvailableBoardSquares } from '../slices/gameSlice'
 import { useAppDispatch, useAppSelector } from '../hooks'
@@ -11,13 +9,23 @@ import { numBoardSquaresHeight, numBoardSquaresWidth } from '../constants/board'
 
 import { CardProps } from '../types/types';
 import Pattern from './Pattern'
-import styles from './Card.module.css'
+
+import { FaHeart, FaHandBackFist, FaShield } from "react-icons/fa6";
 
 export default function Card(props: CardProps) {
-  const { additionalClasses, name, level, attack, health, attackPattern, imgUrl } = props
+  const { name, level, attack, health, attackPattern, imgUrl } = props
   const text = props.text === 'None' ? '' : props.text; // TODO
 
-  const cardLevelStyle = `level${level}Card`
+  const cardBgColor = useMemo(() => {
+    switch (level) {
+      case 1:
+        return "bg-[#f08080]";
+      case 2:
+        return "bg-[#92c1db]";
+      default:
+        return "";
+    }
+  }, [level]);
 
   const dispatch = useAppDispatch()
   const activeBoardSquare = useAppSelector(selectActiveBoardSquare)
@@ -40,31 +48,34 @@ export default function Card(props: CardProps) {
   }
 
   return (
-    <div key={name} className={`${styles.container} ${additionalClasses}`}>
-      <div className={`${styles.card} ${styles[cardLevelStyle]}`} draggable="true" onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-        <div className={`${styles.cardName} ${styles.noPointerEvents}`}>{name}</div>
-        <div className={styles.cardImageContainer}>
-          <Image src={imgUrl} className={styles.cardImage} alt="Card Image" fill />
-          <div className={styles.cardLevel}> {/* This should be a component too -- for prototype just leaving as is */}
-            {level}
-          </div>
+    <div
+      className={`${cardBgColor} h-[200px] w-[125px] flex flex-col items-center justify-start rounded-md border-2 border-black bg-gray-300 z-20 duration-200 cursor-pointer hover:scale-[2] hover:-translate-y-32 hover:z-30 active:scale-100 active:translate-y-0 active:z-20`}
+      draggable="true"
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className={`text-center font-semibold pointer-events-none`}>{name}</div>
+      <div className="relative h-[35%] w-[90%] flex justify-center border border-black bg-cover bg-no-repeat bg-center pointer-events-none">
+        <Image src={imgUrl} className="object-cover pointer-events-none" alt="Card Image" fill />
+        <div className="absolute -bottom-3 w-1/5 text-[0.7em] font-semibold text-center rounded-xl border border-black bg-white"> {/* This should be a component too -- for prototype just leaving as is */}
+          {level}
         </div>
-        <div className={`${styles.cardText} ${styles.noPointerEvents}`}>{`${text}`}</div>
-        <div className={`${styles.patternAndStatsContainer} ${styles.noPointerEvents}`}>
-          <Pattern pattern={`${attackPattern}`} />
-          <div className={styles.stats}>
-            <div className={styles.attack}>
-              <FontAwesomeIcon icon={faHandBackFist} className={`${styles.faIcon} ${styles.attackIcon}`} />
-              <div className={styles.attackNumber}>{attack}</div>
-            </div>
-            <div className={styles.defense}>
-              <FontAwesomeIcon icon={faShield} className={`${styles.faIcon} ${styles.defenseIcon}`} />
-              <div className={styles.defenseNumber}>1</div>
-            </div>
-            <div className={styles.health}>
-              <FontAwesomeIcon icon={faHeart} className={`${styles.faIcon} ${styles.healthIcon}`} />
-              <div className={styles.healthNumber}>{health}</div>
-            </div>
+      </div>
+      <div className={`mt-2.5 px-2 flex items-center justify-center text-center text-[0.65em] pointer-events-none`}>{`${text}`}</div>
+      <div className={`flex w-full h-1/5 mt-auto pointer-events-none`}>
+        <Pattern pattern={attackPattern} />
+        <div className="relative w-1/2">
+          <div className={`h-[45%] w-[30%] absolute left-[35%] top-1/4 flex justify-center items-center text-[0.45em] font-semibold text-center text-white text-stroke-1 -translate-x-3/4 -translate-y-1/2`}>
+            <FaHandBackFist className="global-icon-shadow absolute text-lg text-[#fcba03] rotate-45" />
+            <div className="z-10">{attack}</div>
+          </div>
+          <div className={`h-[45%] w-[30%] absolute left-[35%] top-1/4 flex justify-center items-center text-[0.45em] font-semibold text-center text-white text-stroke-1 translate-x-3/4 -translate-y-1/2`}>
+            <FaShield className="global-icon-shadow absolute text-lg text-[#3761d4]" />
+            <div className="z-10">1</div>
+          </div>
+          <div className={`h-[45%] w-[30%] absolute left-[35%] top-1/4 flex justify-center items-center text-[0.45em] font-semibold text-center text-white text-stroke-1 translate-y-1/2`}>
+            <FaHeart className="global-icon-shadow absolute text-lg text-[#d20209]" />
+            <div className="z-10">{health}</div>
           </div>
         </div>
       </div>
