@@ -3,14 +3,13 @@
 import React, { Fragment } from 'react'
 
 import Card from './Card'
-import styles from './Hand.module.css'
 import { HandProps } from '../types/types'
 
 export default function Hand(props: HandProps) {
   const { cards, playerId } = props
 
   return (
-    <div className={styles.hand}>
+    <div className="w-1/2 flex items-center justify-center gap-2.5 border-orange-600">
       {cards.map((card, index) => {
         return (
           <Fragment key={card.name + index}>
