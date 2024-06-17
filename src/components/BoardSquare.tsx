@@ -10,7 +10,7 @@ import { BoardSquareProps, CardProps } from '../types/types';
 import {
   selectActiveCard,
   selectActiveBoardSquare,
-  removeCardFromOpponentHand,
+  removeCardFromPlayerHand,
   activateBoardSquare,
   deactivateBoardSquare,
   activateCard,
@@ -99,7 +99,7 @@ export default function BoardSquare(props: BoardSquareProps) {
     // if board square is available
     if (availableBoardSquares.includes(id)) {
       setCardInSquare({ ...activeCard, origin: 'boardSquare' })
-      if (activeCard.origin === 'hand') dispatch(removeCardFromOpponentHand(activeCard))
+      if (activeCard.origin === 'hand') dispatch(removeCardFromPlayerHand(activeCard))
     }
 
     if (activeCard.origin === 'hand') dispatch(setAvailableBoardSquares([]))

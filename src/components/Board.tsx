@@ -8,16 +8,16 @@ import { numBoardSquares } from '../constants'
 import BoardSquare from './BoardSquare'
 import Hand from './Hand'
 import { FaBolt, FaChessPawn, FaMountainSun } from 'react-icons/fa6'
-import { selectOpponentHand, addCardToOpponentHand } from '../slices/gameSlice'
+import { selectPlayerHand, addCardToPlayerHand } from '../slices/gameSlice'
 
 export default function Board() {
   const dispatch = useAppDispatch()
-  const opponentHand = useAppSelector(selectOpponentHand)
+  const playerHand = useAppSelector(selectPlayerHand)
 
   useEffect(() => {
     console.log('you changed player 2\'s hand!')
-    console.log(opponentHand);
-  }, [opponentHand])
+    console.log(playerHand);
+  }, [playerHand])
 
   async function handlePawnDeckClick() {
     try {
@@ -37,7 +37,7 @@ export default function Board() {
       const cardUrl = await cardUrlRes.json();
       card['imgUrl'] = cardUrl.url;
 
-      dispatch(addCardToOpponentHand(card));
+      dispatch(addCardToPlayerHand(card));
     } catch (error) {
       console.error(error);
     }
@@ -101,7 +101,7 @@ export default function Board() {
           Exp(?): 0/10
         </div>
         <Hand
-          cards={opponentHand}
+          cards={playerHand}
           playerId={2}
         />
       </div>

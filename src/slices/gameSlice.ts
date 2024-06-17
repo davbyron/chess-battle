@@ -40,6 +40,13 @@ export const gameSlice = createSlice({
         deactivateCard: (state) => {
             state.activeCard = null
         },
+        addCardToPlayerHand: (state, action:PayloadAction<CardProps>) => {
+          state.playerHand = state.playerHand.concat(action.payload)
+        },
+        removeCardFromPlayerHand: (state, action:PayloadAction<CardProps>) => {
+            const newHand = state.playerHand.filter(card => card.id !== action.payload.id)
+            state.playerHand = newHand
+        },
         addCardToOpponentHand: (state, action:PayloadAction<CardProps>) => {
             state.opponentHand = state.opponentHand.concat(action.payload)
         },
@@ -56,6 +63,8 @@ export const {
     activateBoardSquare,
     deactivateBoardSquare,
     setAvailableBoardSquares,
+    addCardToPlayerHand,
+    removeCardFromPlayerHand,
     addCardToOpponentHand,
     removeCardFromOpponentHand
 } = gameSlice.actions;
@@ -63,6 +72,7 @@ export const {
 export const selectActiveCard = (state: RootState) => state.game.activeCard;
 export const selectActiveBoardSquare = (state: RootState) => state.game.activeSquare;
 export const selectAvailableBoardSquares = (state: RootState) => state.game.availableBoardSquares;
+export const selectPlayerHand = (state: RootState) => state.game.playerHand;
 export const selectOpponentHand = (state: RootState) => state.game.opponentHand;
 
 export default gameSlice.reducer;
