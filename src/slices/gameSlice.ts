@@ -8,7 +8,8 @@ export interface GameState {
     activeSquare: number
     availableBoardSquares: number[]
     cardIndex: number
-    player2Hand: CardProps[]
+    playerHand: CardProps[],
+    opponentHand: CardProps[],
 }
 
 const initialState: GameState = {
@@ -16,7 +17,8 @@ const initialState: GameState = {
     activeSquare: null,
     availableBoardSquares: null,
     cardIndex: 0,
-    player2Hand: []
+    playerHand: [],
+    opponentHand: [],
 }
 
 export const gameSlice = createSlice({
@@ -38,15 +40,15 @@ export const gameSlice = createSlice({
         deactivateCard: (state) => {
             state.activeCard = null
         },
-        addCardToPlayer2Hand: (state, action:PayloadAction<CardProps>) => {
-            state.player2Hand = state.player2Hand.concat(action.payload)
+        addCardToOpponentHand: (state, action:PayloadAction<CardProps>) => {
+            state.opponentHand = state.opponentHand.concat(action.payload)
         },
-        removeCardFromPlayer2Hand: (state, action:PayloadAction<CardProps>) => {
-            const newHand = state.player2Hand.filter(card => card.id !== action.payload.id)
-            state.player2Hand = newHand
+        removeCardFromOpponentHand: (state, action:PayloadAction<CardProps>) => {
+            const newHand = state.opponentHand.filter(card => card.id !== action.payload.id)
+            state.opponentHand = newHand
         }
     }
-})
+});
 
 export const {
     activateCard,
@@ -54,13 +56,13 @@ export const {
     activateBoardSquare,
     deactivateBoardSquare,
     setAvailableBoardSquares,
-    addCardToPlayer2Hand,
-    removeCardFromPlayer2Hand
-} = gameSlice.actions
+    addCardToOpponentHand,
+    removeCardFromOpponentHand
+} = gameSlice.actions;
 
-export const selectActiveCard = (state: RootState) => state.game.activeCard
-export const selectActiveBoardSquare = (state: RootState) => state.game.activeSquare
-export const selectAvailableBoardSquares = (state: RootState) => state.game.availableBoardSquares
-export const selectPlayer2Hand = (state: RootState) => state.game.player2Hand
+export const selectActiveCard = (state: RootState) => state.game.activeCard;
+export const selectActiveBoardSquare = (state: RootState) => state.game.activeSquare;
+export const selectAvailableBoardSquares = (state: RootState) => state.game.availableBoardSquares;
+export const selectOpponentHand = (state: RootState) => state.game.opponentHand;
 
-export default gameSlice.reducer
+export default gameSlice.reducer;
