@@ -2,6 +2,8 @@
 
 import { useEffect } from 'react'
 
+import { io } from "socket.io-client";
+
 import { useAppDispatch, useAppSelector } from '../hooks'
 
 import { numBoardSquares } from '../constants'
@@ -11,6 +13,13 @@ import { FaBolt, FaChessPawn, FaMountainSun } from 'react-icons/fa6'
 import { selectPlayerHand, addCardToPlayerHand } from '../slices/gameSlice'
 
 export default function Board() {
+  const socket = io("http://localhost:3001");
+
+  socket.on("draw-card", (card) => {
+    console.log("card was drawn: ", card);
+    // TODO
+  });
+
   const dispatch = useAppDispatch()
   const playerHand = useAppSelector(selectPlayerHand)
 
@@ -38,6 +47,11 @@ export default function Board() {
       card['imgUrl'] = cardUrl.url;
 
       dispatch(addCardToPlayerHand(card));
+
+      socket.emit("draw-card", {
+        player: "1", // TODO
+        card: card,
+      });
     } catch (error) {
       console.error(error);
     }

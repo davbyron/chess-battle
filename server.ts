@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import sqlite3 from "sqlite3";
+import { Server } from 'socket.io';
+import { createServer } from 'http';
 import { MongoClient } from 'mongodb'
 import { createApi } from 'unsplash-js';
 import { MongoURI, UnsplashAccessKey } from './chess-battle.config.js'
@@ -9,6 +11,13 @@ const app = express()
 const port = 3001
 
 app.use(cors())
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+  }
+});
 
 const mongoURI = MongoURI;
 const mongoClient = new MongoClient(mongoURI);
@@ -24,6 +33,24 @@ const sqlite = new sqlite3.Database('./src/db.sql', (err) => {
 function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
 }
+
+
+/**
+ * SOCKET.IO
+ */
+
+io.on("connection", (socket) => {
+  console.log("Connected to Socket.IO.");
+
+  socket.on("draw-card", (card) => {
+    socket.emit("draw-card", card);
+  });
+});
+
+
+/**
+ * HTTP ROUTES
+ */
 
 app.get('/', (request, response) => {
     response.send('Connected.')
@@ -74,8 +101,8 @@ app.get('/cardPhotoUrl/:cardPhotoId', async (request, response) => {
     response.send({'url': cardPhotoUrl});
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+httpServer.listen(port, () => {
+  console.log(`Server listening on port ${port}.`);
 })
 
 export default app;
