@@ -12,7 +12,7 @@ export default function Pattern(props: PatternProps) {
     switch (pattern) {
       case 'A': return <PatternA />;
       case 'B': return <PatternB />;
-      default: return undefined;
+      default: return null;
     }
   }
 

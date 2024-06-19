@@ -4,9 +4,9 @@ import { RootState } from '../store'
 import { CardProps } from '../types/types'
 
 export interface GameState {
-    activeCard: CardProps
-    activeSquare: number
-    availableBoardSquares: number[]
+    activeCard: CardProps | null
+    activeSquare: number | null
+    availableBoardSquares: number[] | null
     cardIndex: number
     playerHand: CardProps[],
     opponentHand: CardProps[],

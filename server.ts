@@ -95,7 +95,7 @@ app.get('/cardPhotoUrl/:cardPhotoId', async (request, response) => {
     });
 
     const unsplashResponse = await unsplash.photos.get({ photoId: cardPhotoId });
-    const cardPhotoUrl = unsplashResponse.response.urls.regular;
+    const cardPhotoUrl = unsplashResponse.response?.urls.regular;
     console.log(`cardPhotoUrl: ${cardPhotoUrl}`);
 
     response.send({'url': cardPhotoUrl});

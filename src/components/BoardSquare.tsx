@@ -28,7 +28,7 @@ export default function BoardSquare(props: BoardSquareProps) {
   const activeBoardSquare = useAppSelector(selectActiveBoardSquare)
   const availableBoardSquares = useAppSelector(selectAvailableBoardSquares)
 
-  const [cardInSquare, setCardInSquare] = useState<CardProps>(null)
+  const [cardInSquare, setCardInSquare] = useState<CardProps | null>(null)
   const [showFullCard, setShowFullCard] = useState<boolean>(false)
 
   /**
@@ -72,9 +72,11 @@ export default function BoardSquare(props: BoardSquareProps) {
   }
 
   function handleDragStart() {
-    if (cardInSquare) setShowFullCard(false)
-    dispatch(activateCard(cardInSquare))
-    getSquaresToActivate(cardInSquare, id)
+    if (cardInSquare) {
+      setShowFullCard(false)
+      dispatch(activateCard(cardInSquare))
+      getSquaresToActivate(cardInSquare, id)
+    }
   }
 
   function handleDragEnd() {
@@ -82,7 +84,7 @@ export default function BoardSquare(props: BoardSquareProps) {
 
     // If another board square was dropped on
     // and the pawn was dropped on an available square...
-    if (activeBoardSquare !== id && availableBoardSquares.includes(activeBoardSquare)) {
+    if (activeBoardSquare && activeBoardSquare !== id && availableBoardSquares.includes(activeBoardSquare)) {
       setCardInSquare(null)
       dispatch(deactivateBoardSquare())
     }
@@ -97,12 +99,12 @@ export default function BoardSquare(props: BoardSquareProps) {
 
     // Update card in square with active card
     // if board square is available
-    if (availableBoardSquares.includes(id)) {
+    if (activeCard && availableBoardSquares.includes(id)) {
       setCardInSquare({ ...activeCard, origin: 'boardSquare' })
       if (activeCard.origin === 'hand') dispatch(removeCardFromPlayerHand(activeCard))
     }
 
-    if (activeCard.origin === 'hand') dispatch(setAvailableBoardSquares([]))
+    if (activeCard && activeCard.origin === 'hand') dispatch(setAvailableBoardSquares([]))
     dispatch(deactivateCard())
   }
 
