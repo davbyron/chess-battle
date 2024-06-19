@@ -1,4 +1,3 @@
 import { handlers } from "src/auth";
 
 export const { GET, POST } = handlers;
-export { auth as middleware } from "src/auth";
