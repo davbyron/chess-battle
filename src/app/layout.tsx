@@ -1,11 +1,12 @@
 'use client'
 
 import { Provider } from 'react-redux'
+import { trpc } from 'src/utils/trpc'
 
 import store from '../store'
 import './global.css'
 
-export default function RootLayout({
+function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
   children,
@@ -20,3 +21,5 @@ export default function RootLayout({
     </Provider>
   )
 }
+
+export default trpc.withTRPC(RootLayout);
