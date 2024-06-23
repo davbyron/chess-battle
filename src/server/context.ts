@@ -1,13 +1,13 @@
-import type { CreateNextContextOptions } from '@trpc/server/adapters/next';
-import { getSession } from 'next-auth/react';
+import type { FetchCreateContextFnOptions } from '@trpc/server/adapters/fetch';
+import { auth } from 'src/auth';
 import { PrismaClient } from "@prisma/client";
  
 /**
  * Creates context for an incoming request
  * @link https://trpc.io/docs/v11/context
  */
-export async function createContext(opts: CreateNextContextOptions) {
-  const session = await getSession();
+export async function createContext(opts: FetchCreateContextFnOptions) {
+  const session = await auth();
   const prisma = new PrismaClient();
  
   return {
