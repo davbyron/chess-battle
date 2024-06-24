@@ -5,6 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "dev": "next dev",
+    "dev-wss": "tsx watch src/server/wsServer.ts --tsconfig tsconfig.json",
     "lint": "next lint",
     "server": "tsc && node build/server.js",
     "prisma-migrate": "prisma migrate dev",
@@ -35,7 +36,9 @@
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "sqlite3": "^5.1.7",
+    "superjson": "^2.2.1",
     "ts-node": "^10.9.2",
+    "tsx": "^4.15.7",
     "unsplash-js": "^7.0.19",
     "web-vitals": "^4.1.0",
     "zod": "^3.23.8"

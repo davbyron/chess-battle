@@ -2,6 +2,7 @@ import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import { ssrPrepass } from '@trpc/next/ssrPrepass';
 import type { AppRouter } from "src/server/routers/_app";
+import superjson from "superjson";
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
@@ -19,6 +20,7 @@ export const trpc = createTRPCNext<AppRouter>({
    **/
   ssr: true,
   ssrPrepass,
+  transformer: superjson,
   config(opts) {
     const { ctx } = opts;
     if (typeof window !== 'undefined') {
@@ -27,6 +29,7 @@ export const trpc = createTRPCNext<AppRouter>({
         links: [
           httpBatchLink({
             url: '/api/trpc',
+            transformer: superjson,
           }),
         ],
       };
@@ -36,6 +39,7 @@ export const trpc = createTRPCNext<AppRouter>({
         httpBatchLink({
           // The server needs to know your app's full url
           url: `${getBaseUrl()}/api/trpc`,
+          transformer: superjson,
           /**
            * Set custom request headers on every request from tRPC
            * @link https://trpc.io/docs/v10/header
