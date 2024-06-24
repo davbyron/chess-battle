@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
-import { CardProps } from '../types/types'
+import { Card } from '../types/types'
 
 export interface GameState {
-    activeCard: CardProps | null
+    activeCard: Card | null
     activeSquare: number | null
     availableBoardSquares: number[] | null
     cardIndex: number
-    playerHand: CardProps[],
-    opponentHand: CardProps[],
+    playerHand: Card[],
+    opponentHand: Card[],
 }
 
 const initialState: GameState = {
@@ -34,23 +34,23 @@ export const gameSlice = createSlice({
         setAvailableBoardSquares: (state, action: PayloadAction<number[]>) => {
             state.availableBoardSquares = action.payload
         },
-        activateCard: (state, action: PayloadAction<CardProps>) => {
+        activateCard: (state, action: PayloadAction<Card>) => {
             state.activeCard = action.payload
         },
         deactivateCard: (state) => {
             state.activeCard = null
         },
-        addCardToPlayerHand: (state, action:PayloadAction<CardProps>) => {
+        addCardToPlayerHand: (state, action:PayloadAction<Card>) => {
           state.playerHand = state.playerHand.concat(action.payload)
         },
-        removeCardFromPlayerHand: (state, action:PayloadAction<CardProps>) => {
+        removeCardFromPlayerHand: (state, action:PayloadAction<Card>) => {
             const newHand = state.playerHand.filter(card => card.id !== action.payload.id)
             state.playerHand = newHand
         },
-        addCardToOpponentHand: (state, action:PayloadAction<CardProps>) => {
+        addCardToOpponentHand: (state, action:PayloadAction<Card>) => {
             state.opponentHand = state.opponentHand.concat(action.payload)
         },
-        removeCardFromOpponentHand: (state, action:PayloadAction<CardProps>) => {
+        removeCardFromOpponentHand: (state, action:PayloadAction<Card>) => {
             const newHand = state.opponentHand.filter(card => card.id !== action.payload.id)
             state.opponentHand = newHand
         }

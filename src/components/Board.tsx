@@ -3,6 +3,8 @@
 import { useEffect } from 'react'
 
 import { io } from "socket.io-client";
+import { trpc } from 'src/utils/trpc';
+import type { Card } from 'src/types/types';
 
 import { useAppDispatch, useAppSelector } from '../hooks'
 
@@ -23,6 +25,8 @@ export default function Board() {
   const dispatch = useAppDispatch()
   const playerHand = useAppSelector(selectPlayerHand)
 
+  const cards = trpc.gameRouter.getAllCards.useQuery();
+
   useEffect(() => {
     console.log('you changed player 2\'s hand!')
     console.log(playerHand);
@@ -31,27 +35,24 @@ export default function Board() {
   async function handlePawnDeckClick() {
     try {
       // Get a random card
-      const cardsRes = await fetch('http://localhost:3001/cards');
-      const cards = await cardsRes.json();
-      const card = cards[Math.floor(Math.random() * cards.length)];
+      if (cards.data) {
+        const card = cards.data[Math.floor(Math.random() * cards.data.length)];
+        const modifiedCard: Card = {
+          ...card,
+          imgUrl: "",
+        };
 
-      // Make identical to CardProps
-      // TODO: Fix this in MongoDB so database matches whatever JS wants
-      card['attackPattern'] = card['attack_pattern']
-      card['text'] = card['ability']
-      delete card['attack_pattern']
-      delete card['ability']
+        const cardUrlRes = await fetch(`http://localhost:3001/cardPhotoUrl/${card.unsplashImgId}`);
+        const cardUrl = await cardUrlRes.json();
+        modifiedCard['imgUrl'] = cardUrl.url;
 
-      const cardUrlRes = await fetch(`http://localhost:3001/cardPhotoUrl/${card.unsplashImgId}`);
-      const cardUrl = await cardUrlRes.json();
-      card['imgUrl'] = cardUrl.url;
+        dispatch(addCardToPlayerHand(modifiedCard));
 
-      dispatch(addCardToPlayerHand(card));
-
-      socket.emit("draw-card", {
-        player: "1", // TODO
-        card: card,
-      });
+        socket.emit("draw-card", {
+          player: "1", // TODO
+          card: card,
+        });
+      }
     } catch (error) {
       console.error(error);
     }

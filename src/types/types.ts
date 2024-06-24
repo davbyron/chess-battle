@@ -1,26 +1,9 @@
-export type CardType = {
-    name: string,
-    ability: string,
-    level: number,
-    attack: number,
-    health: number,
-    attack_pattern: string,
-    url: string
-}
+import { Prisma } from "@prisma/client";
 
-// Prop types
-
-export interface CardProps {
-    id: number
-    name: string
-    text: string
-    level: number
-    attack: number
-    health: number
-    attackPattern: string
-    imgUrl: string
-    origin?: 'hand' | 'boardSquare'
-    additionalClasses?: string
+export interface Card extends Prisma.CardUncheckedCreateInput {
+  imgUrl: string
+  origin?: 'hand' | 'boardSquare'
+  additionalClasses?: string
 }
 
 export interface BoardSquareProps {
@@ -28,6 +11,6 @@ export interface BoardSquareProps {
 }
 
 export interface HandProps {
-    cards: CardProps[]
+    cards: Card[]
     playerId: number
 }

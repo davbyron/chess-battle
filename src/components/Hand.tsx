@@ -21,6 +21,10 @@ export default function Hand(props: HandProps) {
               attack={card.attack}
               health={card.health}
               attackPattern={card.attackPattern}
+              movementPattern={card.movementPattern}
+              adjacencyBonus={card.adjacencyBonus}
+              weakness={card.weakness}
+              unsplashImgId={card.unsplashImgId}
               imgUrl={card.imgUrl}
               origin='hand'
             />

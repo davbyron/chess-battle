@@ -7,12 +7,12 @@ import { activateCard, deactivateCard, selectActiveBoardSquare, setAvailableBoar
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { numBoardSquaresHeight, numBoardSquaresWidth } from '../constants';
 
-import { CardProps } from '../types/types';
+import type { Card } from '../types/types';
 import Pattern from './patterns/Pattern'
 
 import { FaHeart, FaHandBackFist, FaShield } from "react-icons/fa6";
 
-export default function Card(props: CardProps) {
+export default function Card(props: Card) {
   const { name, level, attack, health, attackPattern, imgUrl } = props
   const text = props.text === 'None' ? '' : props.text; // TODO
 

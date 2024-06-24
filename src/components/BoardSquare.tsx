@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useAppDispatch, useAppSelector } from '../hooks'
 
 import Card from './Card';
-import { BoardSquareProps, CardProps } from '../types/types';
+import { BoardSquareProps, Card as CardType } from '../types/types';
 import {
   selectActiveCard,
   selectActiveBoardSquare,
@@ -28,7 +28,7 @@ export default function BoardSquare(props: BoardSquareProps) {
   const activeBoardSquare = useAppSelector(selectActiveBoardSquare)
   const availableBoardSquares = useAppSelector(selectAvailableBoardSquares)
 
-  const [cardInSquare, setCardInSquare] = useState<CardProps | null>(null)
+  const [cardInSquare, setCardInSquare] = useState<CardType | null>(null)
   const [showFullCard, setShowFullCard] = useState<boolean>(false)
 
   /**
@@ -37,7 +37,7 @@ export default function BoardSquare(props: BoardSquareProps) {
    * @param card - Card to get attack pattern from
    * @param id - The ID of this board square
    */
-  const getSquaresToActivate = useCallback((card: CardProps, id: number) => {
+  const getSquaresToActivate = useCallback((card: CardType, id: number) => {
     const squaresToMakeAvailable: number[] = []
     const attackPattern: string = card.attackPattern
 
@@ -136,6 +136,10 @@ export default function BoardSquare(props: BoardSquareProps) {
             attack={cardInSquare.attack}
             health={cardInSquare.health}
             attackPattern={cardInSquare.attackPattern}
+            movementPattern={cardInSquare.movementPattern}
+            adjacencyBonus={cardInSquare.adjacencyBonus}
+            weakness={cardInSquare.weakness}
+            unsplashImgId={cardInSquare.unsplashImgId}
             imgUrl={cardInSquare.imgUrl}
           />
         </div>

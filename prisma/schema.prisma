@@ -71,7 +71,7 @@ model Card {
   health          Int
   attackPattern   String // TODO -- should be its own model or enum
   movementPattern String // TODO -- should be its own model or enum
-  ability         String
+  text            String
   adjacencyBonus  String
   weakness        String
   unsplashImgId   String
