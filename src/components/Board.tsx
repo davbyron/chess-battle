@@ -26,6 +26,7 @@ export default function Board() {
   const playerHand = useAppSelector(selectPlayerHand)
 
   const cards = trpc.gameRouter.getAllCards.useQuery();
+  const getCardImgUrl = trpc.gameRouter.getCardPhotoUrl.useMutation();
 
   useEffect(() => {
     console.log('you changed player 2\'s hand!')
@@ -42,9 +43,8 @@ export default function Board() {
           imgUrl: "",
         };
 
-        const cardUrlRes = await fetch(`http://localhost:3001/cardPhotoUrl/${card.unsplashImgId}`);
-        const cardUrl = await cardUrlRes.json();
-        modifiedCard['imgUrl'] = cardUrl.url;
+        const cardUrlRes = await getCardImgUrl.mutateAsync({ cardPhotoId: card.unsplashImgId });
+        modifiedCard['imgUrl'] = cardUrlRes ?? "";
 
         dispatch(addCardToPlayerHand(modifiedCard));
 
