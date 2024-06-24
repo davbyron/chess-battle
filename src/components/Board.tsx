@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 
 import { io } from "socket.io-client";
 import { trpc } from 'src/utils/trpc';
-import type { Card } from 'src/types/types';
 
 import { useAppDispatch, useAppSelector } from '../hooks'
 
@@ -25,8 +24,7 @@ export default function Board() {
   const dispatch = useAppDispatch()
   const playerHand = useAppSelector(selectPlayerHand)
 
-  const cards = trpc.gameRouter.getAllCards.useQuery();
-  const getCardImgUrl = trpc.gameRouter.getCardPhotoUrl.useMutation();
+  const drawCard = trpc.gameRouter.drawCard.useMutation();
 
   useEffect(() => {
     console.log('you changed player 2\'s hand!')
@@ -36,23 +34,13 @@ export default function Board() {
   async function handlePawnDeckClick() {
     try {
       // Get a random card
-      if (cards.data) {
-        const card = cards.data[Math.floor(Math.random() * cards.data.length)];
-        const modifiedCard: Card = {
-          ...card,
-          imgUrl: "",
-        };
+      const card = await drawCard.mutateAsync();
+      if (card) dispatch(addCardToPlayerHand(card));
 
-        const cardUrlRes = await getCardImgUrl.mutateAsync({ cardPhotoId: card.unsplashImgId });
-        modifiedCard['imgUrl'] = cardUrlRes ?? "";
-
-        dispatch(addCardToPlayerHand(modifiedCard));
-
-        socket.emit("draw-card", {
-          player: "1", // TODO
-          card: card,
-        });
-      }
+      socket.emit("draw-card", {
+        player: "1", // TODO
+        card: card,
+      });
     } catch (error) {
       console.error(error);
     }
