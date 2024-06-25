@@ -1,0 +1,7 @@
+id,name,level,attack,health,attackPattern,movementPattern,text,adjacencyBonus,weakness,unsplashImgId
+1,Pawn A,1,1,2,A,A,None,None,None,yihlaRCCvd4
+5,Pawn B,1,1,1,B,A,None,None,None,TZgcKhUWyWo
+4,Pawn C,2,2,3,A,A,None,None,None,K_Na5gCmh38
+3,Pawn D,2,2,1,B,B,None,None,None,25JxltstHSc
+6,Pawn E,1,0,2,A,B,Heals one pawn in attack pattern instead of attacking,None,None,pTrhfmj2jDA
+2,Pawn F,2,0,3,A,B,Heals all pawns in attack pattern instead of attacking,None,None,BjprA4Rlj2g

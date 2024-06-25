@@ -11,7 +11,7 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  console.log("Connected to Socket.IO.");
+  console.log("Connected to Socket.IO.", socket.id);
 
   socket.on("draw-card", (card) => {
     socket.emit("draw-card", card);
