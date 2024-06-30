@@ -1,6 +1,6 @@
-import Link from "next/link";
 import Image from "next/image";
 import { auth, signIn, signOut } from "src/auth";
+import JoinGameButton from "src/components/JoinGameButton";
 
 export default async function Page() {
   const session = await auth();
@@ -51,12 +51,7 @@ export default async function Page() {
         )}
       </nav>
       Welcome to the game!
-      <Link
-        href="/game/test"
-        className="text-white px-5 py-2.5 rounded-lg border-2 border-black bg-gradient-to-r from-orange-600 to-blue-600 hover:from-orange-500 hover:to-blue-500 active:from-orange-800 active:to-blue-800"
-      >
-        Join A Game
-      </Link>
+      <JoinGameButton playerId={session?.user.id} />
     </div>
   )
 }
