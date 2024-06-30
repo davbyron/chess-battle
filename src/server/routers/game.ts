@@ -57,7 +57,7 @@ export const gameRouter = router({
         return game;
       } catch (e) {
         console.error(e);
-        return e;
+        return null;
       }
     }),
   createGame: publicProcedure
@@ -80,7 +80,7 @@ export const gameRouter = router({
         return game;
       } catch (e) {
         console.error(e);
-        return e;
+        return null;
       }
     })
 });
