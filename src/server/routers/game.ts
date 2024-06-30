@@ -4,6 +4,7 @@ import { publicProcedure, router } from "../trpc";
 import { createApi } from "unsplash-js";
 import { UnsplashAccessKey } from "chess-battle.config";
 import { Card } from "src/types/types";
+import z from "zod";
 
 export const gameRouter = router({
   drawCard: publicProcedure.mutation(async ({ ctx }) => {
@@ -26,4 +27,60 @@ export const gameRouter = router({
       return null;
     }
   }),
+  findAvailableGame: publicProcedure
+    .input(z.object({
+      playerId: z.string(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      try{
+        const game = await ctx.prisma.game.findFirst({
+          where: {
+            isAvailable: true,
+          }
+        });
+
+        if (game) {
+          await ctx.prisma.game.update({
+            where: {
+              id: game.id,
+            },
+            data: {
+              players: {
+                connect: {
+                  id: input.playerId,
+                }
+              }
+            }
+          })
+        }
+
+        return game;
+      } catch (e) {
+        console.error(e);
+        return e;
+      }
+    }),
+  createGame: publicProcedure
+    .input(z.object({
+      playerId: z.string(),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const game = ctx.prisma.game.create({
+          data: {
+            players: {
+              connect: {
+                id: input.playerId,
+              }
+            },
+            isAvailable: true,
+          }
+        });
+
+        return game;
+      } catch (e) {
+        console.error(e);
+        return e;
+      }
+    })
 });
