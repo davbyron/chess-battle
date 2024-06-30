@@ -30,14 +30,24 @@ export default async function Page() {
             </form>
           </div>
         ) : (
-          <form
-            action={async () => {
-              "use server"
-              await signIn("google")
-            }}
-          >
-            <button className="text-sm p-2 rounded-md bg-gray-400" type="submit">Signin with Google</button>
-          </form>
+          <div className="flex items-center gap-2">
+            <form
+              action={async () => {
+                "use server"
+                await signIn("google")
+              }}
+            >
+              <button className="text-sm p-2 rounded-md bg-gray-400" type="submit">Signin with Google</button>
+            </form>
+            <form
+              action={async () => {
+                "use server"
+                await signIn("github")
+              }}
+            >
+              <button className="text-sm p-2 rounded-md bg-gray-400" type="submit">Signin with GitHub</button>
+            </form>
+          </div>
         )}
       </nav>
       Welcome to the game!

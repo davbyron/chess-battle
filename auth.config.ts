@@ -1,8 +1,9 @@
 import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
 import type { NextAuthConfig } from "next-auth";
 
 export default {
-  providers: [Google],
+  providers: [Google, GitHub],
   callbacks: {
     jwt({ token, user }) {
       if (user) { // User is available during sign-in
