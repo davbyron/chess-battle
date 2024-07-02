@@ -41,7 +41,7 @@ export default function Deck(props: DeckProps) {
 
   return (
     <div
-      className="h-[200px] w-[125px] flex items-center justify-center rounded-md bg-slate-300 hover:bg-slate-200 active:bg-slate-400 cursor-pointer"
+      className={`h-[200px] w-[125px] flex items-center justify-center rounded-md bg-slate-300 ${owner === "player" ? "hover:bg-slate-200 active:bg-slate-400 cursor-pointer" : "opacity-50"}`}
       onClick={handlePawnDeckClick}
     >
       {type === "pawn" ? (
