@@ -1,16 +1,21 @@
-'use client'
+"use client"
 
-import React, { Fragment } from 'react'
+import React, { Fragment } from "react";
 
-import Card from './Card'
-import { HandProps } from '../types/types'
+import { useAppSelector } from "src/hooks";
+import { selectPlayerHand } from "src/slices/gameSlice";
+
+import Card from "./Card";
+import { HandProps } from "../types/types";
 
 export default function Hand(props: HandProps) {
-  const { cards, playerId } = props
+  const { playerId } = props;
+
+  const playerHand = useAppSelector(selectPlayerHand);
 
   return (
     <div className="w-1/2 flex items-center justify-center gap-2.5 border-orange-600">
-      {cards.map((card, index) => {
+      {playerHand.map((card, index) => {
         return (
           <Fragment key={card.name + index}>
             <Card

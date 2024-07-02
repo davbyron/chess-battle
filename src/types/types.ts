@@ -11,6 +11,5 @@ export interface BoardSquareProps {
 }
 
 export interface HandProps {
-    cards: Card[]
-    playerId: number
+  playerId: number
 }
