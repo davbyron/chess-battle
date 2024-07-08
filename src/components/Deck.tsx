@@ -1,6 +1,6 @@
 "use client"
 
-import { io } from "socket.io-client";
+import { io, type Socket } from "socket.io-client";
 import { trpc } from "src/utils/trpc";
 
 import { useAppDispatch } from "src/hooks";
@@ -22,8 +22,13 @@ export default function Deck(props: DeckProps) {
 
   const drawCard = trpc.gameRouter.drawCard.useMutation();
 
-  async function handlePawnDeckClick() {
-    if (owner === "player") {
+  socket.on("draw-card", (card) => {
+    console.log("card was drawn: ", card);
+    // TODO
+  });
+
+  async function handleDeckClick() {
+    if (owner === "player" && type === "pawn") {
       try {
         // Get a random card
         const card = await drawCard.mutateAsync();
@@ -41,8 +46,8 @@ export default function Deck(props: DeckProps) {
 
   return (
     <div
-      className={`h-[200px] w-[125px] flex items-center justify-center rounded-md bg-slate-300 ${owner === "player" ? "hover:bg-slate-200 active:bg-slate-400 cursor-pointer" : "opacity-50"}`}
-      onClick={handlePawnDeckClick}
+      className={`h-[120px] w-[75px] lg:h-[200px] lg:w-[125px] flex items-center justify-center rounded-md bg-slate-300 ${owner === "player" ? "hover:bg-slate-200 active:bg-slate-400 cursor-pointer" : "opacity-50"}`}
+      onClick={handleDeckClick}
     >
       {type === "pawn" ? (
         <FaChessPawn className="text-3xl" />

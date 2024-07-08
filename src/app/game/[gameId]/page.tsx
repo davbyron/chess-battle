@@ -1,4 +1,3 @@
-import { io } from "socket.io-client";
 import { auth } from "src/auth";
 
 import Board from "src/components/Board";
@@ -16,13 +15,6 @@ export default async function Page(props: GameProps) {
   const { gameId } = params;
 
   const session = await auth();
-
-  const socket = io("http://localhost:3001");
-
-  socket.on("draw-card", (card) => {
-    console.log("card was drawn: ", card);
-    // TODO
-  });
 
   return (
     <div className="h-full w-full flex flex-col border border-black">
