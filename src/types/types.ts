@@ -11,5 +11,5 @@ export interface BoardSquareProps {
 }
 
 export interface HandProps {
-  playerId: number
+  playerId: string
 }
