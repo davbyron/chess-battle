@@ -11,11 +11,19 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  console.log("Connected to Socket.IO.", socket.id);
+  console.log("✅ Connected to Socket.IO.", socket.id);
+
+  socket.on("join-room", async (roomId) => {
+    await socket.join(roomId);
+  })
 
   socket.on("draw-card", (card) => {
     socket.emit("draw-card", card);
   });
+
+  socket.on("disconnect", (reason) => {
+    console.log("❌ Disconnecting. Reason: ", reason);
+  })
 });
 
 httpServer.listen(3001);
