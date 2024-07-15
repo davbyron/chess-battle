@@ -24,7 +24,7 @@ export default async function Page(props: GameProps) {
           <p>Level: 1/5</p>
           <p>Exp(?): 0/10</p>
         </div>
-        <Hand playerId={session?.user.id} />
+        <Hand player="opponent" />
       </div>
       <div className="h-1/2 flex justify-center border border-green-500">
         <div className="flex flex-col justify-center items-center gap-10 border border-purple-800">
@@ -52,7 +52,7 @@ export default async function Page(props: GameProps) {
           <p>Level: 1/5</p>
           <p>Exp(?): 0/10</p>
         </div>
-        <Hand playerId={session?.user.id} />
+        <Hand player="player" />
       </div>
     </div>
   );
