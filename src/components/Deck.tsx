@@ -1,6 +1,7 @@
 "use client"
 
-import { io, type Socket } from "socket.io-client";
+import { useSession } from "next-auth/react"
+import { useSocket } from "src/hooks";
 import { trpc } from "src/utils/trpc";
 
 import { useAppDispatch } from "src/hooks";
@@ -11,33 +12,29 @@ import { FaBolt, FaChessPawn, FaMountainSun } from "react-icons/fa6";
 interface DeckProps {
   type: "pawn" | "event" | "environment";
   owner: "player" | "opponent";
+  gameId: string;
 }
 
 export default function Deck(props: DeckProps) {
-  const { type, owner } = props;
+  const { type, owner, gameId } = props;
+  const { data: session } = useSession();
 
-  const socket = io("http://localhost:3001");
+  const { socket } = useSocket(gameId);
 
   const dispatch = useAppDispatch();
 
   const drawCard = trpc.gameRouter.drawCard.useMutation();
-
-  socket.on("draw-card", (card) => {
-    console.log("card was drawn: ", card);
-    // TODO
-  });
 
   async function handleDeckClick() {
     if (owner === "player" && type === "pawn") {
       try {
         // Get a random card
         const card = await drawCard.mutateAsync();
-        if (card) dispatch(addCardToPlayerHand(card));
-  
-        socket.emit("draw-card", {
-          player: "1", // TODO
-          card: card,
-        });
+        if (card) {
+          dispatch(addCardToPlayerHand(card));
+
+          socket?.emit("drawCard", card, session?.user.id, gameId);
+        }
       } catch (error) {
         console.error(error);
       }
