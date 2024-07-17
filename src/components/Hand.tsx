@@ -33,7 +33,7 @@ export default function Hand(props: HandProps) {
               weakness={card.weakness}
               unsplashImgId={card.unsplashImgId}
               imgUrl={card.imgUrl}
-              origin='hand'
+              location={player === "player" ? "playerHand" : "opponentHand"}
             />
           </Fragment>
         )
