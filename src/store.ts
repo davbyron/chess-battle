@@ -10,4 +10,8 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
+// For non-component files:
+export const dispatch = store.dispatch;
+export const getState = store.getState;
+
 export default store
