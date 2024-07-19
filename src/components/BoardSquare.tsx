@@ -1,13 +1,15 @@
 'use client'
 
-import React, { useState, useCallback, DragEvent, MouseEvent } from 'react';
+import React, { useState, useCallback, useEffect, DragEvent, MouseEvent } from 'react';
 import Image from 'next/image'
 
-import { useAppDispatch, useAppSelector } from '../hooks'
+import { useSession } from 'next-auth/react';
+import { useAppDispatch, useAppSelector, useSocket } from '../hooks'
 
 import Card from './Card';
 import { BoardSquareProps, Card as CardType } from '../types/types';
 import {
+  selectGameId,
   selectActiveCard,
   selectActiveBoardSquare,
   removeCardFromPlayerHand,
@@ -23,13 +25,33 @@ import { numBoardSquaresWidth } from '../constants';
 export default function BoardSquare(props: BoardSquareProps) {
   const { id } = props
 
+  const { data: session } = useSession();
+
   const dispatch = useAppDispatch()
+  const gameId = useAppSelector(selectGameId);
   const activeCard = useAppSelector(selectActiveCard)
   const activeBoardSquare = useAppSelector(selectActiveBoardSquare)
   const availableBoardSquares = useAppSelector(selectAvailableBoardSquares)
 
+  const { socket } = useSocket(gameId ?? "");
+
+  const [isActive, setIsActive] = useState<boolean>(false);
   const [cardInSquare, setCardInSquare] = useState<CardType | null>(null)
   const [showFullCard, setShowFullCard] = useState<boolean>(false)
+
+  /**
+   * When the board square is activated in the store,
+   * and there is also an active card in the store,
+   * sets the card in this square to the active card.
+   */
+  useEffect(() => {
+    if (!isActive && activeBoardSquare === id && activeCard) {
+      setCardInSquare(activeCard);
+
+      dispatch(deactivateBoardSquare());
+      dispatch(deactivateCard());
+    }
+  }, [id, isActive, activeCard, activeBoardSquare, dispatch]);
 
   /**
    * Dispatches an action to set the available board squares in
@@ -87,6 +109,7 @@ export default function BoardSquare(props: BoardSquareProps) {
     if (activeBoardSquare && activeBoardSquare !== id && availableBoardSquares.includes(activeBoardSquare)) {
       setCardInSquare(null)
       dispatch(deactivateBoardSquare())
+      setIsActive(false);
     }
     dispatch(setAvailableBoardSquares([]))
     dispatch(deactivateCard())
@@ -96,16 +119,20 @@ export default function BoardSquare(props: BoardSquareProps) {
     if (!availableBoardSquares) return;
 
     dispatch(activateBoardSquare(id))
+    setIsActive(true);
 
     // Update card in square with active card
     // if board square is available
     if (activeCard && availableBoardSquares.includes(id)) {
-      setCardInSquare({ ...activeCard, origin: 'boardSquare' })
-      if (activeCard.origin === 'hand') dispatch(removeCardFromPlayerHand(activeCard))
+      socket.emit("movePawn", activeCard, id, session?.user.id, gameId ?? "");
+      setCardInSquare({ ...activeCard, location: 'boardSquare' })
+      if (activeCard.location !== "boardSquare") dispatch(removeCardFromPlayerHand(activeCard))
     }
 
-    if (activeCard && activeCard.origin === 'hand') dispatch(setAvailableBoardSquares([]))
+    if (activeCard && activeCard.location !== "boardSquare") dispatch(setAvailableBoardSquares([]))
+    dispatch(deactivateBoardSquare());
     dispatch(deactivateCard())
+    setIsActive(false);
   }
 
   const handleMouseLeave = () => {
@@ -141,6 +168,7 @@ export default function BoardSquare(props: BoardSquareProps) {
             weakness={cardInSquare.weakness}
             unsplashImgId={cardInSquare.unsplashImgId}
             imgUrl={cardInSquare.imgUrl}
+            location="boardSquare"
           />
         </div>
       }
