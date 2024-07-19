@@ -1,6 +1,13 @@
+"use client"
+
+import { useEffect } from "react";
+
 import Board from "src/components/Board";
 import Deck from "src/components/Deck";
 import Hand from "src/components/Hand";
+
+import { useAppDispatch, useAppSelector } from "src/hooks";
+import { setGameId, selectGameId } from "src/slices/gameSlice";
 
 interface GameProps {
   params: {
@@ -11,6 +18,15 @@ interface GameProps {
 export default function Page(props: GameProps) {
   const { params } = props;
   const { gameId } = params;
+
+  const dispatch = useAppDispatch();
+  const storeGameId = useAppSelector(selectGameId);
+
+  useEffect(() => {
+    if (!storeGameId) {
+      dispatch(setGameId(gameId));
+    }
+  }, [storeGameId, dispatch, gameId]);
 
   return (
     <div className="h-full w-full flex flex-col border border-black">
