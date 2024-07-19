@@ -4,6 +4,7 @@ import { RootState } from '../store'
 import { Card } from '../types/types'
 
 export interface GameState {
+  gameId: string | null
   activeCard: Card | null
   activeSquare: number | null
   availableBoardSquares: number[] | null
@@ -13,6 +14,7 @@ export interface GameState {
 }
 
 const initialState: GameState = {
+  gameId: null,
   activeCard: null,
   activeSquare: null,
   availableBoardSquares: null,
@@ -25,6 +27,9 @@ export const gameSlice = createSlice({
   name: 'game',
   initialState: initialState,
   reducers: {
+    setGameId: (state, action: PayloadAction<string>) => {
+      state.gameId = action.payload;
+    },
     activateBoardSquare: (state, action: PayloadAction<number>) => {
       state.activeSquare = action.payload;
     },
@@ -58,6 +63,7 @@ export const gameSlice = createSlice({
 });
 
 export const {
+  setGameId,
   activateCard,
   deactivateCard,
   activateBoardSquare,
@@ -69,6 +75,7 @@ export const {
   removeCardFromOpponentHand
 } = gameSlice.actions;
 
+export const selectGameId = (state: RootState) => state.game.gameId;
 export const selectActiveCard = (state: RootState) => state.game.activeCard;
 export const selectActiveBoardSquare = (state: RootState) => state.game.activeSquare;
 export const selectAvailableBoardSquares = (state: RootState) => state.game.availableBoardSquares;
