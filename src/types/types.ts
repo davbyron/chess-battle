@@ -6,8 +6,10 @@ export interface Card extends Prisma.CardUncheckedCreateInput {
   additionalClasses?: string
 }
 
-export interface BoardSquareProps {
-    id: number
+export interface BoardSquare {
+  id: number
+  card?: Card
+  environment?: null // TODO
 }
 
 export interface HandProps {

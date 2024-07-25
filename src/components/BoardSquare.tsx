@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useAppDispatch, useAppSelector, useSocket } from '../hooks'
 
 import Card from './Card';
-import { BoardSquareProps, Card as CardType } from '../types/types';
+import { BoardSquare as BoardSquareProps, Card as CardProps } from '../types/types';
 import {
   selectGameId,
   selectActiveCard,
