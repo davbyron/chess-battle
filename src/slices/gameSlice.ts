@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
-import { Card } from '../types/types'
+import { numBoardSquares } from 'src/constants'
+import { BoardSquare, Card } from '../types/types'
 
 export interface GameState {
   gameId: string | null
@@ -11,6 +12,7 @@ export interface GameState {
   cardIndex: number
   playerHand: Card[],
   opponentHand: Card[],
+  board: BoardSquare[],
 }
 
 const initialState: GameState = {
@@ -21,6 +23,9 @@ const initialState: GameState = {
   cardIndex: 0,
   playerHand: [],
   opponentHand: [],
+  board: Array.from({ length: numBoardSquares }, (_, index) => ({
+    id: index
+  })),
 }
 
 export const gameSlice = createSlice({
@@ -58,7 +63,11 @@ export const gameSlice = createSlice({
     removeCardFromOpponentHand: (state, action:PayloadAction<Card>) => {
       const newHand = state.opponentHand.filter(card => card.id !== action.payload.id);
       state.opponentHand = newHand;
-    }
+    },
+    updateBoardSquare: (state, action: PayloadAction<BoardSquare>) => {
+      const newBoard = state.board.toSpliced(action.payload.id, 1, action.payload);
+      state.board = newBoard;
+    },
   }
 });
 
@@ -72,7 +81,8 @@ export const {
   addCardToPlayerHand,
   removeCardFromPlayerHand,
   addCardToOpponentHand,
-  removeCardFromOpponentHand
+  removeCardFromOpponentHand,
+  updateBoardSquare
 } = gameSlice.actions;
 
 export const selectGameId = (state: RootState) => state.game.gameId;
@@ -81,5 +91,6 @@ export const selectActiveBoardSquare = (state: RootState) => state.game.activeSq
 export const selectAvailableBoardSquares = (state: RootState) => state.game.availableBoardSquares;
 export const selectPlayerHand = (state: RootState) => state.game.playerHand;
 export const selectOpponentHand = (state: RootState) => state.game.opponentHand;
+export const selectBoard = (state: RootState) => state.game.board;
 
 export default gameSlice.reducer;
