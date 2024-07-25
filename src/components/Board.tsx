@@ -1,14 +1,19 @@
 "use client"
 
-import { numBoardSquares } from "../constants";
+import { useAppSelector } from "src/hooks";
+import { selectBoard } from "src/slices/gameSlice";
+
 import BoardSquare from "./BoardSquare";
 
 export default function Board() {
-  const boardSquares = Array(numBoardSquares).fill("").map((element, index) => {
+  const board = useAppSelector(selectBoard);
+
+  const boardSquares = board.map((boardSquare, index) => {
     return (
       <BoardSquare
-        id={index}
-        key={index.toString()}
+        id={boardSquare.id}
+        card={boardSquare.card}
+        key={`square-${boardSquare.id}`}
       />
     )
   });

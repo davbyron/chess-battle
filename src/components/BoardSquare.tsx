@@ -23,7 +23,7 @@ import {
 import { numBoardSquaresWidth } from '../constants';
 
 export default function BoardSquare(props: BoardSquareProps) {
-  const { id } = props
+  const { id, card } = props
 
   const { data: session } = useSession();
 
@@ -35,23 +35,7 @@ export default function BoardSquare(props: BoardSquareProps) {
 
   const { socket } = useSocket(gameId ?? "");
 
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [cardInSquare, setCardInSquare] = useState<CardType | null>(null)
   const [showFullCard, setShowFullCard] = useState<boolean>(false)
-
-  /**
-   * When the board square is activated in the store,
-   * and there is also an active card in the store,
-   * sets the card in this square to the active card.
-   */
-  useEffect(() => {
-    if (!isActive && activeBoardSquare === id && activeCard) {
-      setCardInSquare(activeCard);
-
-      dispatch(deactivateBoardSquare());
-      dispatch(deactivateCard());
-    }
-  }, [id, isActive, activeCard, activeBoardSquare, dispatch]);
 
   /**
    * Dispatches an action to set the available board squares in
@@ -59,7 +43,7 @@ export default function BoardSquare(props: BoardSquareProps) {
    * @param card - Card to get attack pattern from
    * @param id - The ID of this board square
    */
-  const getSquaresToActivate = useCallback((card: CardType, id: number) => {
+  const getSquaresToActivate = useCallback((card: CardProps, id: number) => {
     const squaresToMakeAvailable: number[] = []
     const attackPattern: string = card.attackPattern
 
@@ -86,63 +70,55 @@ export default function BoardSquare(props: BoardSquareProps) {
   }, [dispatch])
 
   const handleMouseEnter = useCallback((event: MouseEvent) => {
-    if (cardInSquare) setShowFullCard(true)
-  }, [cardInSquare])
+    if (card) setShowFullCard(true)
+  }, [card])
 
   const handleDragOver = (event: DragEvent) => {
     event.preventDefault();
   }
 
   function handleDragStart() {
-    if (cardInSquare) {
+    if (card) {
       setShowFullCard(false)
-      dispatch(activateCard(cardInSquare))
-      getSquaresToActivate(cardInSquare, id)
+      dispatch(activateCard(card))
+      dispatch(activateBoardSquare(id))
+
+      // Should be getSquaresToSetAvailable
+      getSquaresToActivate(card, id)
     }
   }
 
   function handleDragEnd() {
-    if (!availableBoardSquares) return;
+    if (!availableBoardSquares || !activeBoardSquare) return;
 
-    // If another board square was dropped on
-    // and the pawn was dropped on an available square...
-    if (activeBoardSquare && activeBoardSquare !== id && availableBoardSquares.includes(activeBoardSquare)) {
-      setCardInSquare(null)
-      dispatch(deactivateBoardSquare())
-      setIsActive(false);
-    }
-    dispatch(setAvailableBoardSquares([]))
-    dispatch(deactivateCard())
+    deactivateBoardSquare();
   }
 
   const handleDrop = (event: DragEvent) => {
     if (!availableBoardSquares) return;
 
-    dispatch(activateBoardSquare(id))
-    setIsActive(true);
-
     // Update card in square with active card
     // if board square is available
     if (activeCard && availableBoardSquares.includes(id)) {
-      socket.emit("movePawn", activeCard, id, session?.user.id, gameId ?? "");
-      setCardInSquare({ ...activeCard, location: 'boardSquare' })
-      if (activeCard.location !== "boardSquare") dispatch(removeCardFromPlayerHand(activeCard))
+      socket.emit("movePawn", activeCard, activeBoardSquare ?? "hand", id, session?.user.id, gameId ?? "");
+      if (activeCard.location !== "boardSquare") {
+        dispatch(removeCardFromPlayerHand(activeCard));
+      }
     }
 
-    if (activeCard && activeCard.location !== "boardSquare") dispatch(setAvailableBoardSquares([]))
+    if (activeCard && activeCard.location !== "boardSquare") dispatch(setAvailableBoardSquares([]));
     dispatch(deactivateBoardSquare());
-    dispatch(deactivateCard())
-    setIsActive(false);
+    dispatch(deactivateCard());
   }
 
   const handleMouseLeave = () => {
-    if (cardInSquare) setShowFullCard(false)
+    if (card) setShowFullCard(false)
   }
 
   return (
     <div
       id={`${props.id}`}
-      className={`relative border border-black ${availableBoardSquares && availableBoardSquares.includes(id) && 'bg-teal-200'} ${cardInSquare && "cursor-pointer"}`}
+      className={`relative border border-black ${availableBoardSquares && availableBoardSquares.includes(id) && 'bg-teal-200'} ${card && "cursor-pointer"}`}
       onMouseEnter={handleMouseEnter}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
@@ -150,24 +126,24 @@ export default function BoardSquare(props: BoardSquareProps) {
       onDrop={handleDrop}
       onMouseLeave={handleMouseLeave}
     >
-      {cardInSquare &&
-        <Image src={cardInSquare.imgUrl} className="object-cover" alt="hehe" fill />
+      {card &&
+        <Image src={card.imgUrl} className="object-cover" alt="hehe" fill />
       }
-      {cardInSquare && showFullCard &&
+      {card && showFullCard &&
         <div className="absolute left-[110%] -bottom-1/2 z-10">
           <Card
-            id={cardInSquare.id}
-            name={cardInSquare.name}
-            text={cardInSquare.text}
-            level={cardInSquare.level}
-            attack={cardInSquare.attack}
-            health={cardInSquare.health}
-            attackPattern={cardInSquare.attackPattern}
-            movementPattern={cardInSquare.movementPattern}
-            adjacencyBonus={cardInSquare.adjacencyBonus}
-            weakness={cardInSquare.weakness}
-            unsplashImgId={cardInSquare.unsplashImgId}
-            imgUrl={cardInSquare.imgUrl}
+            id={card.id}
+            name={card.name}
+            text={card.text}
+            level={card.level}
+            attack={card.attack}
+            health={card.health}
+            attackPattern={card.attackPattern}
+            movementPattern={card.movementPattern}
+            adjacencyBonus={card.adjacencyBonus}
+            weakness={card.weakness}
+            unsplashImgId={card.unsplashImgId}
+            imgUrl={card.imgUrl}
             location="boardSquare"
           />
         </div>
