@@ -3,6 +3,7 @@ import { Prisma } from "@prisma/client";
 export interface Card extends Prisma.CardUncheckedCreateInput {
   imgUrl: string
   location: "playerHand" | "opponentHand" | "boardSquare"
+  uuid: string
   additionalClasses?: string
 }
 

@@ -14,7 +14,12 @@ export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("ht
  */
 socket.on("drawCard", async (card, playerId) => {
   const session = await getSession();
-  if (session?.user.id !== playerId) dispatch(addCardToOpponentHand(card));
+  if (session?.user.id !== playerId) {
+    dispatch(addCardToOpponentHand({
+      ...card,
+      location: "opponentHand",
+    }));
+  }
 })
 
 /**

@@ -148,6 +148,7 @@ export default function BoardSquare(props: BoardSquareProps) {
             unsplashImgId={card.unsplashImgId}
             imgUrl={card.imgUrl}
             location="boardSquare"
+            uuid={card.uuid}
           />
         </div>
       }
