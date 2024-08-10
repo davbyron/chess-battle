@@ -4,7 +4,7 @@ import { io, type Socket } from "socket.io-client";
 import { ServerToClientEvents, ClientToServerEvents } from "src/types/types";
 import { getSession } from "next-auth/react";
 import { dispatch, getState } from "src/store";
-import { addCardToOpponentHand, activateBoardSquare, activateCard, updateBoardSquare } from "src/slices/gameSlice";
+import { addCardToOpponentHand, activateBoardSquare, activateCard, updateBoardSquare, removeCardFromPlayerHand, removeCardFromOpponentHand } from "src/slices/gameSlice";
 import { numBoardSquares } from "src/constants";
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:3001");
@@ -15,6 +15,18 @@ export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("ht
 socket.on("drawCard", async (card, playerId) => {
   const session = await getSession();
   if (session?.user.id !== playerId) dispatch(addCardToOpponentHand(card));
+})
+
+/**
+ * Removes a card from designated player's hand
+ */
+socket.on("discardCard", async (card, playerId) => {
+  const session = await getSession();
+  if (session?.user.id === playerId) {
+    dispatch(removeCardFromPlayerHand(card));
+  } else {
+    dispatch(removeCardFromOpponentHand(card));
+  }
 })
 
 /**

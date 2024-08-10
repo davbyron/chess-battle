@@ -40,6 +40,13 @@ io.on("connection", (socket) => {
     socket.to(roomId).emit("drawCard", card, playerId);
   });
 
+  socket.on("discardCard", (card, playerId, roomId) => {
+    console.log("↙️ discardCard");
+    console.log("↗️ discardCard");
+
+    io.to(roomId).emit("discardCard", card, playerId);
+  })
+
   socket.on("movePawn", (card, startingBoardSquareId, endingBoardSquareId, playerId, roomId) => {
     console.log("↙️ movePawn");
 

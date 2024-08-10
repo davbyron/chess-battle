@@ -100,13 +100,16 @@ export default function BoardSquare(props: BoardSquareProps) {
     // Update card in square with active card
     // if board square is available
     if (activeCard && availableBoardSquares.includes(id)) {
-      socket.emit("movePawn", activeCard, activeBoardSquare ?? "hand", id, session?.user.id, gameId ?? "");
+      // If the card is coming from a hand, emit `discardCard` event
       if (activeCard.location !== "boardSquare") {
-        dispatch(removeCardFromPlayerHand(activeCard));
+        socket.emit("discardCard", activeCard, session?.user.id, gameId ?? "");
       }
+
+      // Emit move pawn event
+      socket.emit("movePawn", activeCard, activeBoardSquare ?? "hand", id, session?.user.id, gameId ?? "");
     }
 
-    if (activeCard && activeCard.location !== "boardSquare") dispatch(setAvailableBoardSquares([]));
+    dispatch(setAvailableBoardSquares([]));
     dispatch(deactivateBoardSquare());
     dispatch(deactivateCard());
   }
