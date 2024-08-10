@@ -32,7 +32,10 @@ socket.on("movePawn", async (card, startingBoardSquareId, endingBoardSquareId, p
       // Update ending board square
       dispatch(updateBoardSquare({
         ...endingBoardSquareForOpponent,
-        card: card,
+        card: {
+          ...card,
+          location: "boardSquare",
+        },
       }));
     }
 
@@ -65,7 +68,10 @@ socket.on("movePawn", async (card, startingBoardSquareId, endingBoardSquareId, p
     if (endingBoardSquareForPlayer) {
       dispatch(updateBoardSquare({
         ...endingBoardSquareForPlayer,
-        card: card,
+        card: {
+          ...card,
+          location: "boardSquare",
+        },
       }));
     }
   }
