@@ -4,7 +4,12 @@ import { io, type Socket } from "socket.io-client";
 import { ServerToClientEvents, ClientToServerEvents } from "src/types/types";
 import { getSession } from "next-auth/react";
 import { dispatch, getState } from "src/store";
-import { addCardToOpponentHand, activateBoardSquare, activateCard, updateBoardSquare, removeCardFromPlayerHand, removeCardFromOpponentHand } from "src/slices/gameSlice";
+import {
+  addCardToOpponentHand,
+  updateBoardSquare,
+  removeCardFromPlayerHand,
+  removeCardFromOpponentHand
+} from "src/slices/gameSlice";
 import { numBoardSquares } from "src/constants";
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:3001");
