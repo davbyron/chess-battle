@@ -50,18 +50,18 @@ export const gameSlice = createSlice({
     deactivateCard: (state) => {
       state.activeCard = null;
     },
-    addCardToPlayerHand: (state, action:PayloadAction<Card>) => {
+    addCardToPlayerHand: (state, action: PayloadAction<Card>) => {
       state.playerHand = state.playerHand.concat(action.payload);
     },
-    removeCardFromPlayerHand: (state, action:PayloadAction<Card>) => {
-      const newHand = state.playerHand.filter(card => card.id !== action.payload.id);
+    removeCardFromPlayerHand: (state, action: PayloadAction<Card>) => {
+      const newHand = state.playerHand.filter(card => card.uuid !== action.payload.uuid);
       state.playerHand = newHand;
     },
-    addCardToOpponentHand: (state, action:PayloadAction<Card>) => {
+    addCardToOpponentHand: (state, action: PayloadAction<Card>) => {
       state.opponentHand = state.opponentHand.concat(action.payload);
     },
-    removeCardFromOpponentHand: (state, action:PayloadAction<Card>) => {
-      const newHand = state.opponentHand.filter(card => card.id !== action.payload.id);
+    removeCardFromOpponentHand: (state, action: PayloadAction<Card>) => {
+      const newHand = state.opponentHand.filter(card => card.uuid !== action.payload.uuid);
       state.opponentHand = newHand;
     },
     updateBoardSquare: (state, action: PayloadAction<BoardSquare>) => {
