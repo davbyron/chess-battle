@@ -4,6 +4,7 @@ export interface Card extends Prisma.CardUncheckedCreateInput {
   imgUrl: string
   location: "playerHand" | "opponentHand" | "boardSquare"
   uuid: string
+  owner: "player" | "opponent"
   additionalClasses?: string
 }
 

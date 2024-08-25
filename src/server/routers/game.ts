@@ -21,6 +21,7 @@ export const gameRouter = router({
         imgUrl: cardPhotoUrl ?? "",
         location: "playerHand",
         uuid: crypto.randomUUID(),
+        owner: "player",
       };
 
       return modifiedCard;

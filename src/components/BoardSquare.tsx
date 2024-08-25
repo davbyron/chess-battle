@@ -149,6 +149,7 @@ export default function BoardSquare(props: BoardSquareProps) {
             imgUrl={card.imgUrl}
             location="boardSquare"
             uuid={card.uuid}
+            owner={card.owner}
           />
         </div>
       }

@@ -23,6 +23,7 @@ socket.on("drawCard", async (card, playerId) => {
     dispatch(addCardToOpponentHand({
       ...card,
       location: "opponentHand",
+      owner: "opponent",
     }));
   }
 })
@@ -57,6 +58,7 @@ socket.on("movePawn", async (card, startingBoardSquareId, endingBoardSquareId, p
         card: {
           ...card,
           location: "boardSquare",
+          owner: "opponent",
         },
       }));
     }
@@ -93,6 +95,7 @@ socket.on("movePawn", async (card, startingBoardSquareId, endingBoardSquareId, p
         card: {
           ...card,
           location: "boardSquare",
+          owner: "player",
         },
       }));
     }

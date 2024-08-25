@@ -35,6 +35,7 @@ export default function Hand(props: HandProps) {
               imgUrl={card.imgUrl}
               location={player === "player" ? "playerHand" : "opponentHand"}
               uuid={card.uuid}
+              owner={card.owner}
             />
           </Fragment>
         )
