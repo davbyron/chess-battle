@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useCallback, useEffect, DragEvent, MouseEvent } from 'react';
+import React, { useState, useCallback, DragEvent, MouseEvent } from 'react';
 import Image from 'next/image'
 
 import { useSession } from 'next-auth/react';
@@ -12,7 +12,6 @@ import {
   selectGameId,
   selectActiveCard,
   selectActiveBoardSquare,
-  removeCardFromPlayerHand,
   activateBoardSquare,
   deactivateBoardSquare,
   activateCard,
@@ -78,7 +77,7 @@ export default function BoardSquare(props: BoardSquareProps) {
   }
 
   function handleDragStart() {
-    if (card) {
+    if (card && card.owner === "player") {
       setShowFullCard(false)
       dispatch(activateCard(card))
       dispatch(activateBoardSquare(id))
