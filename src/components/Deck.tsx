@@ -33,7 +33,7 @@ export default function Deck(props: DeckProps) {
         if (card) {
           dispatch(addCardToPlayerHand(card));
 
-          socket?.emit("drawCard", card, session?.user.id, gameId);
+          socket?.emit("drawCard", card, session?.user?.id, gameId);
         }
       } catch (error) {
         console.error(error);

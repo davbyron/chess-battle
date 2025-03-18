@@ -19,7 +19,7 @@ export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("ht
  */
 socket.on("drawCard", async (card, playerId) => {
   const session = await getSession();
-  if (session?.user.id !== playerId) {
+  if (session?.user?.id !== playerId) {
     dispatch(addCardToOpponentHand({
       ...card,
       location: "opponentHand",
@@ -33,7 +33,7 @@ socket.on("drawCard", async (card, playerId) => {
  */
 socket.on("discardCard", async (card, playerId) => {
   const session = await getSession();
-  if (session?.user.id === playerId) {
+  if (session?.user?.id === playerId) {
     dispatch(removeCardFromPlayerHand(card));
   } else {
     dispatch(removeCardFromOpponentHand(card));
@@ -47,7 +47,7 @@ socket.on("movePawn", async (card, startingBoardSquareId, endingBoardSquareId, p
   const board = getState().game.board;
   const session = await getSession();
 
-  if (session?.user.id !== playerId) {
+  if (session?.user?.id !== playerId) {
     const opppositeEndingSquareId = numBoardSquares - endingBoardSquareId - 1;
     const endingBoardSquareForOpponent = board.at(opppositeEndingSquareId);
 

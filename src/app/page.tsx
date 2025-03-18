@@ -13,11 +13,11 @@ export default async function Page() {
           <div className="flex items-center gap-5">
             <div className="relative size-7 rounded-full">
               <Image
-                src={session.user.image ?? ""}
+                src={session.user?.image ?? ""}
                 fill
                 sizes="100%"
                 className="rounded-full"
-                alt={session.user.name ? `${session.user.name}'s profile image` : "User's profile image"}
+                alt={session.user?.name ? `${session.user?.name}'s profile image` : "User's profile image"}
               />
             </div>
             <form
@@ -51,7 +51,7 @@ export default async function Page() {
         )}
       </nav>
       Welcome to the game!
-      <JoinGameButton playerId={session?.user.id} />
+      <JoinGameButton playerId={session?.user?.id} />
     </div>
   )
 }

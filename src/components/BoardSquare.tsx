@@ -101,11 +101,11 @@ export default function BoardSquare(props: BoardSquareProps) {
     if (activeCard && availableBoardSquares.includes(id)) {
       // If the card is coming from a hand, emit `discardCard` event
       if (activeCard.location !== "boardSquare") {
-        socket.emit("discardCard", activeCard, session?.user.id, gameId ?? "");
+        socket.emit("discardCard", activeCard, session?.user?.id, gameId ?? "");
       }
 
       // Emit move pawn event
-      socket.emit("movePawn", activeCard, activeBoardSquare ?? "hand", id, session?.user.id, gameId ?? "");
+      socket.emit("movePawn", activeCard, activeBoardSquare ?? "hand", id, session?.user?.id, gameId ?? "");
     }
 
     dispatch(setAvailableBoardSquares([]));
