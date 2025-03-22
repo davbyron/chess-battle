@@ -5,8 +5,8 @@
 set -ex
 
 # Variables
-DATABASE_USER=db1436
-DATABASE_USER_PASSWORD=Hakip963pluS!
+DATABASE_USER=
+DATABASE_USER_PASSWORD=
 DATABASE_NAME=chess-battle
 TABLE_NAME="Card"
 CSV_FILE="prisma/seedData.csv"
