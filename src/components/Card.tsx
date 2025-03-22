@@ -49,7 +49,7 @@ export default function Card(props: Card) {
 
   return (
     <div
-      className={`${cardBgColor} h-[200px] w-[125px] flex flex-col items-center justify-start rounded-md border-2 border-black z-20 duration-200 ${location === "playerHand" && "cursor-pointer hover:scale-[2] hover:-translate-y-32 hover:z-30 active:scale-100 active:translate-y-0 active:z-20"}`}
+      className={`${cardBgColor} h-[200px] w-[125px] flex flex-col items-center justify-start rounded-md border-2 border-black z-20 duration-200 ${location === "playerHand" && "cursor-pointer hover:scale-2 hover:-translate-y-32 hover:z-30 active:scale-100 active:translate-y-0 active:z-20"}`}
       draggable="true"
       onDragStart={location === "playerHand" ? handleDragStart : () => {}}
       onDragEnd={location === "playerHand" ? handleDragEnd: () => {}}
