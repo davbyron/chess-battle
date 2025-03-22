@@ -10,9 +10,9 @@ import { useAppDispatch, useAppSelector } from "src/hooks";
 import { setGameId, selectGameId } from "src/slices/gameSlice";
 
 interface GameProps {
-  params: {
+  params: Promise<{
     gameId: string;
-  };
+  }>;
 }
 
 export default function Page(props: GameProps) {
