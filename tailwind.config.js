@@ -15,20 +15,4 @@ module.exports = {
       textStroke: ['responsive', 'hover', 'focus'],
     },
   },
-  plugins: [
-    // Add custom utils
-    function({ addUtilities, theme, e }) {
-      const textStroke = theme('textStroke', {});
-
-      const utilities = Object.entries(textStroke).map(([key, value]) => {
-        return {
-          [`.${e(`text-stroke-${key}`)}`]: {
-            '-webkit-text-stroke': value,
-          },
-        };
-      });
-
-      addUtilities(utilities, ['responsive', 'hover', 'focus']);
-    },
-  ],
 }
